@@ -6,7 +6,7 @@ function Navigation() {
         <nav className="fixed bottom-0 left-0 w-full border-t-4 border-black background-colour">
             <div className="flex justify-around px-4 py-2">
                 <Link className="flex flex-col items-center justify-center"
-                      href="#">
+                      href="/">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24"
                          stroke="#000">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -27,7 +27,7 @@ function Navigation() {
                 </Link>
 
                 <Link className="flex flex-col items-center justify-center"
-                      href="#">
+                      href="/account">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
