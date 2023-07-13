@@ -1,6 +1,6 @@
 import React from 'react';
-import Link from "next/link";
 import NavButton from "@/components/NavButton";
+import AddNavButton from "@/components/AddNavButton";
 
 // import {motion} from "framer-motion";
 
@@ -12,16 +12,7 @@ function Navigation() {
 
                     <NavButton href="/" text="Feed" alt="feed" imagePath="/images/feed.svg"/>
 
-                    <Link href="/add">
-                        <div
-                            className={"bg-fuchsia-800 p-3 box-shadow-black border-2 border-black rounded-2xl flex items-center justify-center"}>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="#fff">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                      d="M12 4v16m8-8H4"></path>
-                            </svg>
-                        </div>
-                    </Link>
+                    <AddNavButton/>
 
                     <NavButton href="/account" text="Account" alt="account" imagePath="/images/accountBtn.svg"/>
                 </div>
