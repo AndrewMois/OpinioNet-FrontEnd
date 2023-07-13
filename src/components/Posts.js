@@ -14,7 +14,7 @@ const Posts = (props) => {
             {props.posts.map((post) => (
                 <div
                     key={post.id}
-                    className="bg-white rounded-2xl shadow-md p-4 mb-4  border-2 border-black"
+                    className="bg-white rounded-2xl box-shadow-black p-4 mb-4  border-2 border-black"
                 >
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
