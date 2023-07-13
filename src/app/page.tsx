@@ -1,5 +1,6 @@
 import Posts from "@/components/Posts";
 import Votes from "@/components/Votes/Votes";
+import PageWrapper from "@/components/PageWrapper";
 
 
 export default function Home() {
@@ -56,9 +57,11 @@ export default function Home() {
     ];
 
     return (
-        <main className="px-4 mb-20">
-            <Posts posts={posts} title={"Feed"}/>
-            <Votes/>
-        </main>
+        <PageWrapper>
+            <main className="px-4 mb-20">
+                <Posts posts={posts} title={"Feed"}/>
+                <Votes/>
+            </main>
+        </PageWrapper>
     )
 }

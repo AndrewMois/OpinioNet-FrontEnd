@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Navigation() {
     return (
-        <header>
+        <header className="relative z-10">
             <nav className="fixed bottom-0 left-0 w-full border-t-4 border-black background-colour">
                 <div className="flex justify-around px-4 py-2">
                     <Link className="flex flex-col items-center justify-center"
