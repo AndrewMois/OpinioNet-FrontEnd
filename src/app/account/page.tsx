@@ -1,6 +1,7 @@
 'use client';
 import Image from "next/image";
 import {useState} from "react";
+import Posts from "@/components/Posts";
 
 export default function Account() {
     const [email, setEmail] = useState('john.doe@example.com');
@@ -14,8 +15,18 @@ export default function Account() {
         }
     };
 
-    const [newPassword, setNewPassword] = useState('')
     const [editPassword, setEditPassword] = useState(false);
+
+    const posts = [
+        {
+            id: 1,
+            title: 'Post 1',
+            content: 'This is the content of Post 1.',
+            author: 'John Doe',
+            date: '2023-07-10',
+            likes: 0,
+        },
+    ];
 
     return (
         <main className="mb-20 h-screen">
@@ -76,7 +87,9 @@ export default function Account() {
                     )}
                 </div>
             </div>
-
+            <div className="mx-auto p-4">
+                <Posts posts={posts} title={"Your posts"}/>
+            </div>
         </main>
     )
 }
