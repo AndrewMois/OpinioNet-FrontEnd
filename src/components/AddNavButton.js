@@ -6,11 +6,13 @@ import Image from "next/image";
 
 function AddNavButton() {
     return (
-        <motion.div whileTap={{scale: 0.8}} className="flex flex-col items-center justify-center outline-none">
+        <motion.div whileTap={{scale: 0.8}}
+                    className="flex flex-col items-center justify-center outline-none remove-tap-highlight">
             <Link href="/add">
                 <div
-                    className={"bg-fuchsia-800 p-3 box-shadow-black border-2 border-black rounded-2xl flex items-center justify-center outline-none"}>
-                    <Image src="/images/add.svg" alt="add" width={30} height={30} className="w-6 h-6 outline-none"/>
+                    className={"bg-fuchsia-800 p-3 box-shadow-black border-2 border-black rounded-2xl flex items-center justify-center outline-none remove-tap-highlight"}>
+                    <Image src="/images/add.svg" alt="add" width={30} height={30}
+                           className="w-6 h-6 outline-none remove-tap-highlight"/>
                 </div>
             </Link>
         </motion.div>
