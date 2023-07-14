@@ -10,7 +10,7 @@ function AddNavButton() {
             <Link href="/add">
                 <div
                     className={"bg-fuchsia-800 p-3 box-shadow-black border-2 border-black rounded-2xl flex items-center justify-center outline-none"}>
-                    <Image src="/images/add.svg" alt="add" width={30} height={30} className="w-6 h-6"/>
+                    <Image src="/images/add.svg" alt="add" width={30} height={30} className="w-6 h-6 outline-none"/>
                 </div>
             </Link>
         </motion.div>
