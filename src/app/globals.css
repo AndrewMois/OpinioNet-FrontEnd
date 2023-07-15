@@ -9,6 +9,23 @@
     --link-colour: #0000aa;
 }
 
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    background-color: rgba(239, 208, 164, 0.53);
+}
+
 body {
     background-color: var(--background-colour);
 }
@@ -31,8 +48,4 @@ body {
 
 .text-accent {
     color: var(--accent-colour);
-}
-
-.remove-tap-highlight {
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

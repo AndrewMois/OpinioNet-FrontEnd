@@ -18,7 +18,7 @@ export default function RootLayout({children,}: {
     return (
 
         <html lang="en">
-        <body className={inter.className + " "}>
+        <body className={inter.className + " md:border-black md:border-x-4 max-w-screen-md mx-auto"}>
         <Logo text="OpinioNet"/>
         <Navigation/>
         {children}
