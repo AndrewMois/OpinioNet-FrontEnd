@@ -23,7 +23,7 @@ function Add() {
 
     return (
         <PageWrapper>
-            <main className="mb-20 ">
+            <main className="pb-20 ">
                 <div className="mx-auto border-b-2 border-black p-4">
                     <h2 className="text-2xl font-bold mb-4">Ask new question</h2>
                     <form onSubmit={handleSubmit}>

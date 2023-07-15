@@ -58,7 +58,7 @@ export default function Home() {
 
     return (
         <PageWrapper>
-            <main className="px-4 mb-20">
+            <main className="px-4 pb-20 background-colour">
                 <Posts posts={posts} title={"Feed"}/>
                 <Votes/>
             </main>
