@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 
-const TextArea = ({setContent}) => {
+const TextArea = ({registerFunc}) => {
     const [text, setText] = useState('');
 
     const handleTextChange = (e) => {
         setText(e.target.value);
-        // Pass the value of the textarea to the parent component
-        setContent(e.target.value);
+
     };
 
     const calculateTextareaHeight = (element) => {
@@ -23,10 +22,10 @@ const TextArea = ({setContent}) => {
         <div className="grid">
       <textarea
           className="w-full border border-fuchsia-800 px-4 py-2 rounded-2xl box-shadow-black resize-none overflow-hidden"
-          value={text}
           onChange={handleTextChange}
           onInput={handleTextareaResize}
           placeholder=""
+          {...registerFunc("content", {required: true})}
       />
             <div className="hidden">{text}</div>
             {/*Hidden div is added to replicate the value of the textarea.

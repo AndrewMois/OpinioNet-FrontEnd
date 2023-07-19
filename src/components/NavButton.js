@@ -12,7 +12,7 @@ function NavButton({href, imagePath, alt, text}) {
                     className="flex flex-col items-center justify-center focus:outline-none remove-tap-highlight">
             <Link className="relative flex flex-col items-center justify-center remove-tap-highlight"
                   href={`${href}`}>
-                <Image src={`${imagePath}`} alt={alt} height="24" width="30"
+                <Image src={`${imagePath}`} alt={alt} height="30" width="30"
                        className="mb-1 remove-tap-highlight outline-none"/>
                 <span className="text-xs remove-tap-highlight outline-none">{text}</span>
                 {href === path && (

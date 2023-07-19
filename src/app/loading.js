@@ -5,7 +5,7 @@ function Loading() {
         <div className="px-4 mb-20">
             <h1 className="text-2xl font-bold my-4">Feed</h1>
             <div className="rounded-md my-4 animate-pulse">
-                {Array(5).fill(0).map((index) => (
+                {Array(5).fill(0).map((count, index) => (
                     <div
                         key={index}
                         className="bg-white rounded-2xl box-shadow-black p-4 mb-4 border-2 border-black">

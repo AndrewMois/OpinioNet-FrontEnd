@@ -16,7 +16,6 @@ html {
     -moz-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -48,4 +47,8 @@ body {
 
 .text-accent {
     color: var(--accent-colour);
+}
+
+.remove-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
 }

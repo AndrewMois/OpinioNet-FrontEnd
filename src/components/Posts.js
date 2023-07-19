@@ -1,19 +1,21 @@
 import React from 'react';
 import Image from "next/image";
 
-const Posts = (props) => {
+
+const Posts = async ({posts, pageTitle}) => {
 
     // function HandleLike(postId) {
     //     // Placeholder function for liking a post (to be replaced with a database update)
     //     console.log(`Post ${postId} liked!`);
     // }
 
+
     return (
         <div>
-            <h1 className="text-2xl font-bold my-4">{props.title}</h1>
-            {props.posts.map((post) => (
+            <h1 className="text-2xl font-bold my-4">{pageTitle}</h1>
+            {posts.map((post, index) => (
                 <div
-                    key={post.id}
+                    key={index}
                     className="bg-white rounded-2xl box-shadow-black p-4 mb-4  border-2 border-black"
                 >
                     <div className="flex justify-between items-center">
@@ -28,8 +30,14 @@ const Posts = (props) => {
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
                     <div className="flex items-center text-gray-500">
-                        <span className="mr-2">{post.author}</span>
-                        <span>{post.date}</span>
+                        <span className="mr-2">{post.user_name}</span>
+                        <span>{new Date(post.created_at).toLocaleString(undefined, {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            day: 'numeric',
+                            month: 'short',
+                            hour12: false,
+                        })}</span>
                     </div>
                 </div>
             ))}
