@@ -52,8 +52,8 @@ function Add() {
 
     return (
         <PageWrapper>
-            <main className="pb-20 h-screen">
-                <div className="mx-auto border-b-2 border-black p-4">
+            <main className="pb-20 h-screen px-4 mt-4">
+                <div className="bg-white rounded-2xl box-shadow-black p-4 mb-4  border-2 border-black">
                     <h2 className="text-2xl font-bold mb-4">Ask new question</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mb-4">
