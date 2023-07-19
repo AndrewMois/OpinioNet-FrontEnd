@@ -64,7 +64,7 @@ function Add() {
                             />
                             {errors.title && errors.title.type === "required" && (
                                 <p id="outlined_error_help" className="mt-2 ml-4 text-xs text-red-600">
-                                    <span className="bold">Please, write a title! </span></p>
+                                    <span className="font-bold">Please, write a title! </span></p>
                             )}
                             {errors.title && errors.title.type === "maxLength" && (
                                 <p id="outlined_error_help" className="mt-2 ml-4 text-xs text-red-600">
@@ -85,7 +85,6 @@ function Add() {
                             <button
                                 type="submit"
                                 className="bg-fuchsia-800 font-bold hover:bg-fuchsia-600 text-white px-4 py-2 rounded box-shadow-black"
-                                onClick={handleSubmit}
                             >
                                 Post
                             </button>
