@@ -5,15 +5,19 @@ import TextArea from "../../components/TextArea";
 import {useRouter} from 'next/navigation';
 import PageWrapper from "../../components/PageWrapper";
 import {useForm} from "react-hook-form";
+import {GridLoader} from "react-spinners";
+
 
 function Add() {
 
 
     const {push} = useRouter();
+    const [posting, setPosting] = React.useState(false);
     const {register, handleSubmit, formState: {errors}} = useForm();
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
+        setPosting(true);
 
         // Replace 'YOUR_USER_ID' with the actual user_id from application's session or authentication data
         const user_id = '3';
@@ -41,12 +45,14 @@ function Add() {
             }
         } catch (error) {
             console.error("An error occurred while posting:", error);
+        } finally {
+            setPosting(false);
         }
     };
 
     return (
         <PageWrapper>
-            <main className="pb-20 ">
+            <main className="pb-20 h-screen">
                 <div className="mx-auto border-b-2 border-black p-4">
                     <h2 className="text-2xl font-bold mb-4">Ask new question</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,6 +96,11 @@ function Add() {
                             </button>
                         </div>
                     </form>
+                    {posting && (
+                        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                            <GridLoader color="#86198f" size={20}/>
+                        </div>
+                    )}
                 </div>
             </main>
         </PageWrapper>

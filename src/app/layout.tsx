@@ -19,8 +19,10 @@ export default function RootLayout({children,}: {
 
         <html lang="en">
         <body className={inter.className + " md:border-black md:border-x-4 max-w-screen-md mx-auto"}>
-        <Logo text="OpinioNet"/>
-        <Navigation/>
+        <header className="relative z-50">
+            <Logo text="OpinioNet"/>
+            <Navigation/>
+        </header>
         {children}
         </body>
         </html>
