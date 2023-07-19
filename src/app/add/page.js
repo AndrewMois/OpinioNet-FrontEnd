@@ -64,11 +64,11 @@ function Add() {
                             />
                             {errors.title && errors.title.type === "required" && (
                                 <p id="outlined_error_help" className="mt-2 ml-4 text-xs text-red-600">
-                                    <span className="font-medium">Please, write a title! </span></p>
+                                    <span className="bold">Please, write a title! </span></p>
                             )}
                             {errors.title && errors.title.type === "maxLength" && (
                                 <p id="outlined_error_help" className="mt-2 ml-4 text-xs text-red-600">
-                                    <span className="font-medium">Please, stick to 30 letters! </span></p>
+                                    <span className="font-bold">Please, stick to 30 letters! </span></p>
                             )}
                         </div>
                         <div className="mb-4">
@@ -78,7 +78,7 @@ function Add() {
                             <TextArea registerFunc={register}/>
                             {errors.content && errors.content.type === "required" && (
                                 <p id="outlined_error_help" className="mt-2 ml-4 text-xs text-red-600">
-                                    <span className="font-medium">Please, write something! </span></p>
+                                    <span className="font-bold">Please, write something! </span></p>
                             )}
                         </div>
                         <div className="flex justify-end">
