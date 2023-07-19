@@ -90,7 +90,7 @@ export default function Account() {
                     </div>
                 </div>
                 <div className="mx-auto p-4">
-                    <Posts posts={posts} title={"Your posts"}/>
+                    <Posts posts={posts} pageTitle={"Your posts"}/>
                 </div>
             </main>
         </PageWrapper>
