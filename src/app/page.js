@@ -29,12 +29,13 @@ export default function Home() {
     // Function to load more data when scrolling
     const loadMorePosts = async () => {
         const nextPage = page + 1;
-        const newPosts = await fetchData(nextPage);
+        const newRes = await fetchData(nextPage);
+        const newPosts = newRes.data;
+        console.log(newRes);
 
-        if (newPosts.prev_page_url === null) {
-            setPosts((post) => [...post, ...newPosts]);
-            setPage(nextPage);
-        } else {
+        setPosts((post) => [...post, ...newPosts]);
+        setPage(nextPage);
+        if (newRes.next_page_url === null) {
             setHasMore(false); // No more data to load
         }
     };
@@ -45,7 +46,7 @@ export default function Home() {
             .then(initialData => {
                 setPosts(initialData.data);
             });
-    });
+    }, []);
 
     return (
         <PageWrapper>
