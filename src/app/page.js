@@ -3,6 +3,7 @@ import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useState, useEffect} from "react";
+import Loading from "./loading";
 
 export default function Home() {
     // const posts = await GetPosts();
@@ -17,7 +18,8 @@ export default function Home() {
                 cache: 'no-store',
             });
             if (!res.ok) {
-                throw new Error(res.statusText);
+                console.error('Error fetching data:', res.statusText);
+                return []; // Return valid array
             }
             return await res.json();
         } catch (error) {
