@@ -59,7 +59,7 @@ export default function Home() {
                     <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
                                     dataLength={posts.length}>
                         <h1 className="text-2xl font-bold my-4">Feed</h1>
-                        <Posts posts={posts} pageTitle={"Feed"}/>
+                        <Posts posts={posts}/>
                     </InfiniteScroll>)}
             </main>
         </PageWrapper>
