@@ -7,7 +7,7 @@ const nextConfig = {
                 source: "/api/:path*", // Change this to the correct path for your API routes
                 headers: [
                     {key: "Access-Control-Allow-Credentials", value: "true"},
-                    {key: "Access-Control-Allow-Origin", value: "https://opinionet-front-end.vercel.app"}, // Change this to your Next.js application's URL
+                    {key: "Access-Control-Allow-Origin", value: "*"}, // Change this to your Next.js application's URL
                     {key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT"},
                     {
                         key: "Access-Control-Allow-Headers",
