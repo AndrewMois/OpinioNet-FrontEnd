@@ -3,7 +3,6 @@ import Image from "next/image";
 import {useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
-import React from "react/react.shared-subset";
 
 export default function Account() {
     const [email, setEmail] = useState('john.doe@example.com');
