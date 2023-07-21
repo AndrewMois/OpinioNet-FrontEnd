@@ -11,6 +11,7 @@ export default function Home() {
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     // Function to fetch data for the specified page
     const fetchData = async (page) => {
@@ -34,7 +35,6 @@ export default function Home() {
         const nextPage = page + 1;
         const newRes = await fetchData(nextPage);
         const newPosts = newRes.data;
-        console.log(newRes);
 
         setPosts((post) => [...post, ...newPosts]);
         setPage(nextPage);
@@ -48,17 +48,19 @@ export default function Home() {
         fetchData(page)
             .then(initialData => {
                 setPosts(initialData.data);
+                setLoading(false);
             });
     }, []);
 
     return (
         <PageWrapper>
             <main className="px-4 pb-20 background-colour">
-                <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
-                                dataLength={posts.length}>
-                    <h1 className="text-2xl font-bold my-4">Feed</h1>
-                    <Posts posts={posts} pageTitle={"Feed"}/>
-                </InfiniteScroll>
+                {loading ? <Loading/> : (
+                    <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
+                                    dataLength={posts.length}>
+                        <h1 className="text-2xl font-bold my-4">Feed</h1>
+                        <Posts posts={posts} pageTitle={"Feed"}/>
+                    </InfiniteScroll>)}
             </main>
         </PageWrapper>
     )

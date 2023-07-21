@@ -2,7 +2,7 @@ import React from 'react';
 
 function Loading() {
     return (
-        <div className="px-4 mb-20">
+        <div>
             <h1 className="text-2xl font-bold my-4">Feed</h1>
             <div className="rounded-md my-4 animate-pulse">
                 {Array(5).fill(0).map((count, index) => (
