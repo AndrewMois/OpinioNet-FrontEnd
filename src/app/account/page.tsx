@@ -3,6 +3,7 @@ import Image from "next/image";
 import {useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
+import React from "react/react.shared-subset";
 
 export default function Account() {
     const [email, setEmail] = useState('john.doe@example.com');
@@ -90,7 +91,8 @@ export default function Account() {
                     </div>
                 </div>
                 <div className="mx-auto p-4">
-                    <Posts posts={posts} pageTitle={"Your posts"}/>
+                    <h1 className="text-2xl font-bold my-4">Your posts</h1>
+                    <Posts posts={posts}/>
                 </div>
             </main>
         </PageWrapper>
