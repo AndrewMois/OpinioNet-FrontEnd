@@ -2,7 +2,7 @@ import React from 'react';
 import Image from "next/image";
 
 
-const Posts = async ({posts, pageTitle}) => {
+const Posts = ({posts}) => {
 
     // function HandleLike(postId) {
     //     // Placeholder function for liking a post (to be replaced with a database update)
@@ -11,11 +11,10 @@ const Posts = async ({posts, pageTitle}) => {
 
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold my-4">{pageTitle}</h1>
-            {posts.map((post, index) => (
+        <>
+            {posts.map((post) => (
                 <div
-                    key={index}
+                    key={post.id}
                     className="bg-white rounded-2xl box-shadow-black p-4 mb-4  border-2 border-black"
                 >
                     <div className="flex justify-between items-center">
@@ -41,8 +40,8 @@ const Posts = async ({posts, pageTitle}) => {
                     </div>
                 </div>
             ))}
-        </div>
+        </>
     );
 };
 
-export default Posts;
+export default React.memo(Posts);

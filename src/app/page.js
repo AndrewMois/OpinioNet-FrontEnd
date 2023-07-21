@@ -2,8 +2,9 @@
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import Loading from "./loading";
+import InfiniteLoading from "../components/InfiniteLoading";
 
 export default function Home() {
     // const posts = await GetPosts();
@@ -53,8 +54,9 @@ export default function Home() {
     return (
         <PageWrapper>
             <main className="px-4 pb-20 background-colour">
-                <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<p>Loading...</p>}
+                <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
                                 dataLength={posts.length}>
+                    <h1 className="text-2xl font-bold my-4">Feed</h1>
                     <Posts posts={posts} pageTitle={"Feed"}/>
                 </InfiniteScroll>
             </main>
