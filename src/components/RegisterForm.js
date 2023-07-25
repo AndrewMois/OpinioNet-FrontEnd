@@ -18,7 +18,6 @@ function RegisterForm() {
     };
     const onSubmit = (data, e) => {
         e.preventDefault();
-        console.log(JSON.stringify(data));  //DELETE THIS LINE
 
         fetch("https://opinio-net-api-794h.vercel.app/api/register", {
             method: "POST",
@@ -34,8 +33,6 @@ function RegisterForm() {
             }),
         }).then((res) => res.json())
             .then((data) => {
-                // Handle the response data (e.g., show success message or redirect to login page)
-                console.log(data); //DELETE THIS LINE
                 if (data.errors) {
                     setServerErrors(data.errors);
                 }
