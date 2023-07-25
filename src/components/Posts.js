@@ -4,10 +4,10 @@ import Image from "next/image";
 
 const Posts = ({posts}) => {
 
-    // function HandleLike(postId) {
-    //     // Placeholder function for liking a post (to be replaced with a database update)
-    //     console.log(`Post ${postId} liked!`);
-    // }
+    function handleLike(postId) {
+        // Placeholder function for liking a post (to be replaced with a database update)
+        console.log(`Post ${postId} liked!`);
+    }
 
 
     return (
@@ -23,7 +23,8 @@ const Posts = ({posts}) => {
                             <span>{post.likes}</span>
                             <button>
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
-                                       className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"/>
+                                       className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"
+                                       onClick={() => handleLike(post.id)}/>
                             </button>
                         </div>
                     </div>
