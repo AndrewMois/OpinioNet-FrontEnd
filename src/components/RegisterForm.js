@@ -36,7 +36,16 @@ function RegisterForm() {
                 if (data.errors) {
                     setServerErrors(data.errors);
                 }
-            })
+                if (data.token && data.user_id) {
+                    // Login Successful
+                    sessionStorage.setItem('user_id', JSON.stringify(data.user_id));
+                    sessionStorage.setItem('token', JSON.stringify(data.token));
+                } else {
+                    setServerErrors([{message: "Something went wrong, please try again"}]);
+                }
+            }).catch((error) => {
+            setServerErrors([{message: "Ooops, " + error}])
+        })
     }
 
 

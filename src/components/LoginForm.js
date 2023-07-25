@@ -11,7 +11,6 @@ function LoginForm() {
 
     const onSubmit = (data, e) => {
         e.preventDefault();
-        console.log(JSON.stringify(data));  //DELETE THIS LINE
 
         fetch("https://opinio-net-api-794h.vercel.app/api/login", {
             method: "POST",
@@ -26,11 +25,19 @@ function LoginForm() {
             }),
         }).then((res) => res.json())
             .then((data) => {
-                console.log(data); //DELETE THIS LINE
                 if (data.errors) {
                     setServerErrors(data.errors);
                 }
-            })
+                if (data.token && data.user_id) {
+                    // Login Successful
+                    sessionStorage.setItem('user_id', JSON.stringify(data.user_id));
+                    sessionStorage.setItem('token', JSON.stringify(data.token));
+                } else {
+                    setServerErrors([{message: "Something went wrong, please try again"}]);
+                }
+            }).catch((error) => {
+            setServerErrors([{message: "Ooops, " + error}])
+        })
     }
 
 
