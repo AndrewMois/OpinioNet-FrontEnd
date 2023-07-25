@@ -1,13 +1,17 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Link from "next/link";
 import {useForm} from "react-hook-form";
 import FieldValidationError from "./fieldValidationError";
-import ErrorMessage from "./errorMessage";
+import ErrorMessage from "./ErrorMessage";
+import {useRouter} from 'next/navigation';
+import {useAuthContext} from "./Authentication";
 
 function LoginForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [serverErrors, setServerErrors] = useState(null);
+    const {loggedIn, setLoggedIn} = useAuthContext();
+    const {push} = useRouter();
 
     const onSubmit = (data, e) => {
         e.preventDefault();
@@ -27,19 +31,22 @@ function LoginForm() {
             .then((data) => {
                 if (data.errors) {
                     setServerErrors(data.errors);
-                }
-                if (data.token && data.user_id) {
+                    setLoggedIn(false);
+                } else if (data.token && data.user_id) {
                     // Login Successful
                     sessionStorage.setItem('user_id', JSON.stringify(data.user_id));
                     sessionStorage.setItem('token', JSON.stringify(data.token));
+                    setLoggedIn(true);
+                    push("/account")
                 } else {
-                    setServerErrors([{message: "Something went wrong, please try again"}]);
+                    setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
+                    setLoggedIn(false);
                 }
             }).catch((error) => {
-            setServerErrors([{message: "Ooops, " + error}])
+            setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"})
+            setLoggedIn(false);
         })
     }
-
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -49,12 +56,17 @@ function LoginForm() {
                 <label htmlFor="email" className="block mb-2">
                     Email:
                 </label>
-                <input type="email" id="email" name="email"
+                <input type="text" id="email" name="email"
                        className="w-full border border-fuchsia-800 px-4 py-2 rounded-2xl box-shadow-black"
-                       {...register(('email'), {required: true})}
+                       {...register('email', {
+                           required: 'Email is required',
+                           pattern: {
+                               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
+                               message: 'Invalid email format'
+                           }
+                       })}
                 />
-                {errors.email && errors.email.type === "required" && (
-                    <FieldValidationError message="Email is required"/>)}
+                {errors.email && <FieldValidationError message={errors.email.message}/>}
             </div>
 
 

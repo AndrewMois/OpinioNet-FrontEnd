@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from "../../components/LoginForm";
 
 function Login() {
+ 
     return (
         <main className="px-4 pb-20 h-screen">
             <div className="flex justify-center items-center h-5/6">

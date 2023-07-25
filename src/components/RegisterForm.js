@@ -1,13 +1,17 @@
 'use client';
 import React, {useState} from 'react';
 import Link from "next/link";
-import ErrorMessage from "./errorMessage";
+import ErrorMessage from "./ErrorMessage";
 import {useForm} from "react-hook-form";
 import FieldValidationError from "./fieldValidationError";
+import {useAuthContext} from "./Authentication";
+import {useRouter} from "next/navigation";
 
 function RegisterForm() {
     const [serverErrors, setServerErrors] = useState(null);
     const {register, watch, handleSubmit, formState: {errors}} = useForm();
+    const {loggedIn, setLoggedIn} = useAuthContext();
+    const {push} = useRouter();
 
     const watchPassword = watch("password"); // Watch the value of the 'password' field
     const validatePasswordConfirmation = (value) => {
@@ -35,16 +39,20 @@ function RegisterForm() {
             .then((data) => {
                 if (data.errors) {
                     setServerErrors(data.errors);
-                }
-                if (data.token && data.user_id) {
+                    setLoggedIn(false);
+                } else if (data.token && data.user_id) {
                     // Login Successful
                     sessionStorage.setItem('user_id', JSON.stringify(data.user_id));
                     sessionStorage.setItem('token', JSON.stringify(data.token));
+                    setLoggedIn(true);
+                    push("/account")
                 } else {
-                    setServerErrors([{message: "Something went wrong, please try again"}]);
+                    setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
+                    setLoggedIn(false);
                 }
             }).catch((error) => {
-            setServerErrors([{message: "Ooops, " + error}])
+            setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
+            setLoggedIn(false);
         })
     }
 

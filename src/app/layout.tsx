@@ -3,6 +3,7 @@ import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import Navigation from "@/components/Navigation";
 import Logo from "@/components/Logo";
+import {AuthProvider} from "@/components/Authentication";
 
 
 const inter = Inter({subsets: ['latin']})
@@ -23,7 +24,9 @@ export default function RootLayout({children,}: {
             <Logo text="OpinioNet"/>
             <Navigation/>
         </header>
-        {children}
+        <AuthProvider>
+            {children}
+        </AuthProvider>
         </body>
         </html>
     )
