@@ -19,6 +19,7 @@ function LoginForm() {
                 "Content-Type": "application/json",
                 "Accept": 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify({
                 email: data.email,
                 password: data.password,
