@@ -1,19 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import TextArea from "../../components/TextArea";
 import {useRouter} from 'next/navigation';
 import PageWrapper from "../../components/PageWrapper";
 import {useForm} from "react-hook-form";
 import {GridLoader} from "react-spinners";
+import {useAuthContext} from "../../components/Authentication";
 
 
 function Add() {
 
-
     const {push} = useRouter();
     const [posting, setPosting] = React.useState(false);
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const {checkToken} = useAuthContext();
+
+    // Check if the token exists in storage on page load
+    useEffect(() => {
+        const checkUserLoggedIn = async () => {
+            const loggedIn = await checkToken();
+            if (!loggedIn) {
+                push('/login');
+            }
+        };
+        checkUserLoggedIn();
+    }, [checkToken, push]);
 
     const onSubmit = async (data, e) => {
         e.preventDefault();
