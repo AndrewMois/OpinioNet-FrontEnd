@@ -6,15 +6,18 @@ import FieldValidationError from "./fieldValidationError";
 import ErrorMessage from "./ErrorMessage";
 import {useRouter} from 'next/navigation';
 import {useAuthContext} from "./Authentication";
+import {GridLoader} from "react-spinners";
 
 function LoginForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [serverErrors, setServerErrors] = useState(null);
+    const [loading, setLoading] = useState(false);
     const {setLoggedIn} = useAuthContext();
     const {push} = useRouter();
 
     const onSubmit = (data, e) => {
         e.preventDefault();
+        setLoading(true);
 
         fetch("https://opinio-net-api-794h.vercel.app/api/login", {
             method: "POST",
@@ -45,6 +48,8 @@ function LoginForm() {
             }).catch(() => {
             setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"})
             setLoggedIn(false);
+        }).finally(() => {
+            setLoading(false);
         })
     }
 
@@ -92,6 +97,11 @@ function LoginForm() {
                     Register
                 </Link>
             </div>
+            {loading && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                    <GridLoader color="#86198f" size={20}/>
+                </div>
+            )}
         </form>
     );
 }
