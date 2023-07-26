@@ -1,13 +1,30 @@
 'use client';
 import Image from "next/image";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
+import {useAuthContext} from "@/components/Authentication";
+import {useRouter} from "next/navigation";
 
 export default function Account() {
     const [email, setEmail] = useState('john.doe@example.com');
     const [newEmail, setNewEmail] = useState(email);
     const [editEmail, setEditEmail] = useState(false);
+    const {checkToken} = useAuthContext();
+    const {push} = useRouter()
+
+
+    // Check if the token exists in storage on app load
+    useEffect(() => {
+        const checkUserLoggedIn = async () => {
+            const loggedIn = await checkToken();
+            if (!loggedIn) {
+                push('/login');
+            }
+        };
+        checkUserLoggedIn();
+    }, [checkToken, push]);
+
 
     const handleEmailChange = () => {
         if (newEmail.trim() !== '') {
