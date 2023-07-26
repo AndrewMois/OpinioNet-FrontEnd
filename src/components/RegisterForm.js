@@ -6,10 +6,12 @@ import {useForm} from "react-hook-form";
 import FieldValidationError from "./fieldValidationError";
 import {useAuthContext} from "./Authentication";
 import {useRouter} from "next/navigation";
+import {GridLoader} from "react-spinners";
 
 function RegisterForm() {
     const [serverErrors, setServerErrors] = useState(null);
     const {register, watch, handleSubmit, formState: {errors}} = useForm();
+    const [loading, setLoading] = useState(false);
     const {setLoggedIn} = useAuthContext();
     const {push} = useRouter();
 
@@ -22,6 +24,7 @@ function RegisterForm() {
     };
     const onSubmit = (data, e) => {
         e.preventDefault();
+        setLoading(true);
 
         fetch("https://opinio-net-api-794h.vercel.app/api/register", {
             method: "POST",
@@ -53,6 +56,8 @@ function RegisterForm() {
             }).catch(() => {
             setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
             setLoggedIn(false);
+        }).finally(() => {
+            setLoading(false);
         })
     }
 
@@ -129,6 +134,11 @@ function RegisterForm() {
                     I have an account
                 </Link>
             </div>
+            {loading && (
+                <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                    <GridLoader color="#86198f" size={20}/>
+                </div>
+            )}
         </form>
     );
 }
