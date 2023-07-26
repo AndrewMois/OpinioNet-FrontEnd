@@ -1,5 +1,5 @@
 'use client';
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import Link from "next/link";
 import {useForm} from "react-hook-form";
 import FieldValidationError from "./fieldValidationError";
@@ -10,7 +10,7 @@ import {useAuthContext} from "./Authentication";
 function LoginForm() {
     const {register, handleSubmit, formState: {errors}} = useForm();
     const [serverErrors, setServerErrors] = useState(null);
-    const {loggedIn, setLoggedIn} = useAuthContext();
+    const {setLoggedIn} = useAuthContext();
     const {push} = useRouter();
 
     const onSubmit = (data, e) => {
@@ -42,7 +42,7 @@ function LoginForm() {
                     setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
                     setLoggedIn(false);
                 }
-            }).catch((error) => {
+            }).catch(() => {
             setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"})
             setLoggedIn(false);
         })

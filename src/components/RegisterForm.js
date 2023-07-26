@@ -10,7 +10,7 @@ import {useRouter} from "next/navigation";
 function RegisterForm() {
     const [serverErrors, setServerErrors] = useState(null);
     const {register, watch, handleSubmit, formState: {errors}} = useForm();
-    const {loggedIn, setLoggedIn} = useAuthContext();
+    const {setLoggedIn} = useAuthContext();
     const {push} = useRouter();
 
     const watchPassword = watch("password"); // Watch the value of the 'password' field
@@ -50,7 +50,7 @@ function RegisterForm() {
                     setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
                     setLoggedIn(false);
                 }
-            }).catch((error) => {
+            }).catch(() => {
             setServerErrors({"message": "A little group of mischievous elves have caused some shenanigans! 🧝‍️"});
             setLoggedIn(false);
         })
