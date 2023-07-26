@@ -12,7 +12,7 @@ function Navigation() {
                 className="flex justify-around px-4 py-2 max-w-screen-md mx-auto background-colour md:border-black md:border-x-4 md:border-t-4">
                 <NavButton href="/" text="Feed" alt="feed" imagePath="/images/feed.svg"/>
                 <AddNavButton/>
-                <NavButton href="/login" text="Account" alt="account" imagePath="/images/accountBtn.svg"/>
+                <NavButton href="/account" text="Account" alt="account" imagePath="/images/accountBtn.svg"/>
             </div>
         </nav>
     );
