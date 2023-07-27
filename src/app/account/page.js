@@ -180,8 +180,9 @@ export default function Account() {
                     </div>
                     <motion.div whileTap={{scale: 0.9}}>
                         <button
-                            className="mx-auto block bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded-2xl box-shadow-black">Log
-                            out
+                            className="mx-auto block bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded-2xl box-shadow-black"
+                            onClick={handleLogout}>
+                            Log out
                         </button>
                     </motion.div>
                 </div>
