@@ -14,6 +14,7 @@ export default function Account() {
     const [newEmail, setNewEmail] = useState("");
     const [editEmail, setEditEmail] = useState(false);
     const [editPassword, setEditPassword] = useState(false);
+    const [posts, setPosts] = useState([]);
     const [errors, setErrors] = useState(null);
     const {checkToken} = useAuthContext();
     const {push} = useRouter()
@@ -75,6 +76,16 @@ export default function Account() {
         setEmail(userData.email || 'Getting email...'); // Set default value if email is not available
     }, [userData]);
 
+    // Fetch posts on page load
+    useEffect(() => {
+        const fetchUserPosts = async () => {
+            const fetchedPosts = await fetchPosts();
+            setPosts(fetchedPosts);
+        };
+
+        fetchUserPosts();
+    }, []);
+
     async function handleLogout() {
         const token = sessionStorage.getItem('token');
         if (!token) {
@@ -108,17 +119,23 @@ export default function Account() {
         }
     }
 
-
-    const posts = [
-        {
-            id: 1,
-            title: 'Post 1',
-            content: 'This is the content of Post 1.',
-            author: 'John Doe',
-            date: '2023-07-10',
-            likes: 0,
-        },
-    ];
+    // Function to fetch posts of the current user
+    const fetchPosts = async (page) => {
+        const user_id = sessionStorage.getItem('user_id');
+        try {
+            const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`, {
+                cache: 'no-store',
+            });
+            if (!res.ok) {
+                setErrors({"message": "Error fetching your posts: " + res.statusText})
+                return []; // Return valid array
+            }
+            return await res.json();
+        } catch (error) {
+            setErrors({"message": "Error fetching your posts: " + error})
+            return [];
+        }
+    };
 
     return (
         <PageWrapper>
