@@ -7,7 +7,8 @@ import {useAuthContext} from "@/components/Authentication";
 import {useRouter} from "next/navigation";
 
 export default function Account() {
-    const [email, setEmail] = useState('john.doe@example.com');
+    const [email, setEmail] = useState('Getting email...');
+    const [userData, setUserData] = useState({});
     const [newEmail, setNewEmail] = useState(email);
     const [editEmail, setEditEmail] = useState(false);
     const {checkToken} = useAuthContext();
@@ -20,11 +21,44 @@ export default function Account() {
             const loggedIn = await checkToken();
             if (!loggedIn) {
                 push('/login');
+            } else {
+                // If the user is logged in, fetch their data
+                const userData = await fetchUser();
+                setUserData(userData);
+                setEmail(userData.email);
+                console.log(userData);
             }
         };
         checkUserLoggedIn();
     }, [checkToken, push]);
 
+//Function to fetch data for the specified user
+    const fetchUser = async () => {
+        const user_id = sessionStorage.getItem('user_id');
+        const token = sessionStorage.getItem('token');
+
+        if (user_id && token) {
+            try {
+                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + token,
+                        }
+                    });
+                if (!res.ok) {
+                    console.error('Error fetching data:', res.statusText);
+                    return []; // Return valid array
+                }
+                return await res.json();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
+    };
 
     const handleEmailChange = () => {
         if (newEmail.trim() !== '') {
@@ -54,7 +88,7 @@ export default function Account() {
                     <div className="flex items-center justify-center">
                         <Image src="images/user.svg" alt="user logo" height="128" width="128"/>
                     </div>
-                    <h2 className="text-2xl font-bold text-center mt-4 mb-2">John Doe</h2>
+                    <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
 
                     {/*Email inputs*/}
                     <div className="mb-4">
