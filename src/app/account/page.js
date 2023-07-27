@@ -5,12 +5,15 @@ import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
 import {useAuthContext} from "@/components/Authentication";
 import {useRouter} from "next/navigation";
+import {motion} from "framer-motion";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
     const [userData, setUserData] = useState({});
     const [newEmail, setNewEmail] = useState("");
     const [editEmail, setEditEmail] = useState(false);
+    const [editPassword, setEditPassword] = useState(false);
+    const [errors, setErrors] = useState(null);
     const {checkToken} = useAuthContext();
     const {push} = useRouter()
 
@@ -60,7 +63,6 @@ export default function Account() {
                 const userData = await fetchUser();
                 setUserData(userData);
                 setEmail(userData.email);
-                console.log(userData);
             }
         };
         checkUserLoggedIn();
@@ -72,8 +74,39 @@ export default function Account() {
         setEmail(userData.email || 'Getting email...'); // Set default value if email is not available
     }, [userData]);
 
+    async function handleLogout() {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            push('/login');
+            return;
+        }
 
-    const [editPassword, setEditPassword] = useState(false);
+        try {
+            const res = await fetch("https://opinio-net-api-794h.vercel.app/api/logout",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({token: token, user_id: sessionStorage.getItem('user_id')}),
+                }
+            );
+
+            if (res.ok) {
+                // Logout successful
+                sessionStorage.removeItem('user_id');
+                sessionStorage.removeItem('token');
+                push('/login');
+            } else {
+                // Logout failed
+                console.error("Failed to logout");
+            }
+        } catch {
+            console.error("An error occurred while logging out");
+        }
+    }
+
 
     const posts = [
         {
@@ -124,7 +157,7 @@ export default function Account() {
 
                     </div>
                     {/*Password inputs*/}
-                    <div>
+                    <div className="mb-4">
                         <label className="block font-semibold mb-1">Change Password:</label>
                         <input type="password"
                                className="w-full border border-fuchsia-800 px-4 py-2 rounded-2xl box-shadow-black"
@@ -145,6 +178,12 @@ export default function Account() {
                             </div>
                         )}
                     </div>
+                    <motion.div whileTap={{scale: 0.9}}>
+                        <button
+                            className="mx-auto block bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded-2xl box-shadow-black">Log
+                            out
+                        </button>
+                    </motion.div>
                 </div>
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold my-4">Your posts</h1>
