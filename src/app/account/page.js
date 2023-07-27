@@ -120,7 +120,7 @@ export default function Account() {
     }
 
     // Function to fetch posts of the current user
-    const fetchPosts = async (page) => {
+    const fetchPosts = async () => {
         const user_id = sessionStorage.getItem('user_id');
         try {
             const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`, {
