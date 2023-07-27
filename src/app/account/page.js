@@ -9,30 +9,12 @@ import {useRouter} from "next/navigation";
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
     const [userData, setUserData] = useState({});
-    const [newEmail, setNewEmail] = useState(email);
+    const [newEmail, setNewEmail] = useState("");
     const [editEmail, setEditEmail] = useState(false);
     const {checkToken} = useAuthContext();
     const {push} = useRouter()
 
-
-    // Check if the token exists in storage on app load
-    useEffect(() => {
-        const checkUserLoggedIn = async () => {
-            const loggedIn = await checkToken();
-            if (!loggedIn) {
-                push('/login');
-            } else {
-                // If the user is logged in, fetch their data
-                const userData = await fetchUser();
-                setUserData(userData);
-                setEmail(userData.email);
-                console.log(userData);
-            }
-        };
-        checkUserLoggedIn();
-    }, [checkToken, push]);
-
-//Function to fetch data for the specified user
+    //Function to fetch data for the specified user
     const fetchUser = async () => {
         const user_id = sessionStorage.getItem('user_id');
         const token = sessionStorage.getItem('token');
@@ -66,6 +48,30 @@ export default function Account() {
             setEditEmail(false);
         }
     };
+
+    // Check if the token exists in storage on app load
+    useEffect(() => {
+        const checkUserLoggedIn = async () => {
+            const loggedIn = await checkToken();
+            if (!loggedIn) {
+                push('/login');
+            } else {
+                // If the user is logged in, fetch their data
+                const userData = await fetchUser();
+                setUserData(userData);
+                setEmail(userData.email);
+                console.log(userData);
+            }
+        };
+        checkUserLoggedIn();
+    }, [checkToken, push]);
+
+
+    // Update the email state once the userData state is set
+    useEffect(() => {
+        setEmail(userData.email || 'Getting email...'); // Set default value if email is not available
+    }, [userData]);
+
 
     const [editPassword, setEditPassword] = useState(false);
 
