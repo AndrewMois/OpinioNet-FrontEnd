@@ -7,6 +7,7 @@ import FieldValidationError from "./fieldValidationError";
 import {useAuthContext} from "./Authentication";
 import {useRouter} from "next/navigation";
 import {GridLoader} from "react-spinners";
+import {motion} from "framer-motion";
 
 function RegisterForm() {
     const [serverErrors, setServerErrors] = useState(null);
@@ -124,15 +125,19 @@ function RegisterForm() {
                 )}
             </div>
 
-            <div className="flex justify-around">
-                <button type="submit"
-                        className="bg-fuchsia-800 font-bold hover:bg-fuchsia-600 text-white px-4 py-2 rounded box-shadow-black">
-                    Register
-                </button>
-                <Link href="/login"
-                      className="text-fuchsia-800 font-bold hover:text-fuchsia-600 px-4 py-2 rounded border-2 border-black box-shadow-black">
-                    I have an account
-                </Link>
+            <div className="flex justify-around items-center">
+                <motion.div whileTap={{scale: 0.9}}>
+                    <button type="submit"
+                            className="bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded box-shadow-black flex items-center">
+                        Register
+                    </button>
+                </motion.div>
+                <motion.div whileTap={{scale: 0.9}}>
+                    <Link href="/login"
+                          className="bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded box-shadow-black flex items-center">
+                        I have an account
+                    </Link>
+                </motion.div>
             </div>
             {loading && (
                 <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
