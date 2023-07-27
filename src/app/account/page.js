@@ -14,6 +14,7 @@ export default function Account() {
     const [newEmail, setNewEmail] = useState("");
     const [editEmail, setEditEmail] = useState(false);
     const [editPassword, setEditPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const [errors, setErrors] = useState(null);
     const {checkToken} = useAuthContext();
@@ -21,6 +22,7 @@ export default function Account() {
 
     //Function to fetch data for the specified user
     const fetchUser = async () => {
+        setLoading(true);
         const user_id = sessionStorage.getItem('user_id');
         const token = sessionStorage.getItem('token');
 
@@ -39,8 +41,10 @@ export default function Account() {
                     setErrors({"message": "Error fetching data: " + res.statusText})
                     return []; // Return valid array
                 }
+                setLoading(false);
                 return await res.json();
             } catch (error) {
+                setLoading(false);
                 setErrors({"message": "Error fetching data: " + error});
                 return [];
             }
@@ -122,9 +126,13 @@ export default function Account() {
     // Function to fetch posts of the current user
     const fetchPosts = async () => {
         const user_id = sessionStorage.getItem('user_id');
+        const token = sessionStorage.getItem('token');
         try {
             const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`, {
                 cache: 'no-store',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                }
             });
             if (!res.ok) {
                 setErrors({"message": "Error fetching your posts: " + res.statusText})
