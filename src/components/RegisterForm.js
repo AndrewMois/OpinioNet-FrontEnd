@@ -134,7 +134,7 @@ function RegisterForm() {
                 </motion.div>
                 <motion.div whileTap={{scale: 0.9}}>
                     <Link href="/login"
-                          className="bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded box-shadow-black flex items-center">
+                          className="text-fuchsia-800 font-bold hover:text-fuchsia-600 px-4 py-2 rounded border-2 border-black box-shadow-black flex items-center">
                         I have an account
                     </Link>
                 </motion.div>
