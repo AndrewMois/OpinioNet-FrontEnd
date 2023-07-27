@@ -30,9 +30,8 @@ function Add() {
     const onSubmit = async (data, e) => {
         e.preventDefault();
         setPosting(true);
-
-        // Replace 'YOUR_USER_ID' with the actual user_id from application's session or authentication data
-        const user_id = '3';
+        
+        const user_id = sessionStorage.getItem('user_id');
 
         // Handle the form submission
         try {
