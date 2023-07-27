@@ -125,8 +125,8 @@ export default function Account() {
             <main className="pb-20 h-screen">
 
                 <div className="mx-auto border-b-2 border-black p-4">
+                    {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
-                        {errors && <ErrorMessage errors={errors}/>}
                         <Image src="images/user.svg" alt="user logo" height="128" width="128"/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
