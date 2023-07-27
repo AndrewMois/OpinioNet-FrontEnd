@@ -1,11 +1,12 @@
 'use client';
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
 import {useAuthContext} from "@/components/Authentication";
 import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
+import ErrorMessage from "../../components/ErrorMessage";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
@@ -34,12 +35,12 @@ export default function Account() {
                         }
                     });
                 if (!res.ok) {
-                    console.error('Error fetching data:', res.statusText);
+                    setErrors({"message": "Error fetching data: " + res.statusText})
                     return []; // Return valid array
                 }
                 return await res.json();
             } catch (error) {
-                console.error('Error fetching data:', error);
+                setErrors({"message": "Error fetching data: " + error});
                 return [];
             }
         }
@@ -100,10 +101,10 @@ export default function Account() {
                 push('/login');
             } else {
                 // Logout failed
-                console.error("Failed to logout");
+                setErrors({"message": "Failed to logout"})
             }
         } catch {
-            console.error("An error occurred while logging out");
+            setErrors({"message": "An error occurred while logging out"})
         }
     }
 
@@ -125,6 +126,7 @@ export default function Account() {
 
                 <div className="mx-auto border-b-2 border-black p-4">
                     <div className="flex items-center justify-center">
+                        {errors && <ErrorMessage errors={errors}/>}
                         <Image src="images/user.svg" alt="user logo" height="128" width="128"/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
