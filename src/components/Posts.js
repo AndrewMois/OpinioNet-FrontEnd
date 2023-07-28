@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from "next/image";
+import InfiniteLoading from "./InfiniteLoading";
 
 
 const Posts = ({posts}) => {
@@ -11,10 +12,7 @@ const Posts = ({posts}) => {
 
     if (posts.length === 0) {
         return (
-            <div className="bg-white rounded-2xl box-shadow-black p-4 mb-4  border-2 border-black">
-                <h2 className="text-lg font-semibold mb-2">No posts yet</h2>
-                <p className="text-gray-600 mb-2">Be curious, go ask some questions!</p>
-            </div>
+            <InfiniteLoading/>
         )
     }
 

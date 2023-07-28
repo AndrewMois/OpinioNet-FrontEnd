@@ -7,6 +7,7 @@ import {useAuthContext} from "@/components/Authentication";
 import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
+import {GridLoader} from "react-spinners";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
@@ -41,12 +42,12 @@ export default function Account() {
                     setErrors({"message": "Error fetching data: " + res.statusText})
                     return []; // Return valid array
                 }
-                setLoading(false);
                 return await res.json();
             } catch (error) {
-                setLoading(false);
                 setErrors({"message": "Error fetching data: " + error});
                 return [];
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -61,14 +62,17 @@ export default function Account() {
     // Check if the token exists in storage on app load
     useEffect(() => {
         const checkUserLoggedIn = async () => {
+            setLoading(true)
             const loggedIn = await checkToken();
             if (!loggedIn) {
+                setLoading(false)
                 push('/login');
             } else {
                 // If the user is logged in, fetch their data
                 const userData = await fetchUser();
                 setUserData(userData);
                 setEmail(userData.email);
+                setLoading(false)
             }
         };
         checkUserLoggedIn();
@@ -129,6 +133,7 @@ export default function Account() {
 
     // Function to fetch posts of the current user
     const fetchPosts = async () => {
+        setLoading(true);
         const user_id = sessionStorage.getItem('user_id');
         const token = sessionStorage.getItem('token');
         try {
@@ -146,6 +151,8 @@ export default function Account() {
         } catch (error) {
             setErrors({"message": "Error fetching your posts: " + error})
             return [];
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -221,6 +228,11 @@ export default function Account() {
                     <h1 className="text-2xl font-bold my-4">Your posts</h1>
                     <Posts posts={posts}/>
                 </div>
+                {loading && (
+                    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                        <GridLoader color="#86198f" size={20}/>
+                    </div>
+                )}
             </main>
         </PageWrapper>
     )
