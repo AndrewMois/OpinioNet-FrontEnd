@@ -94,33 +94,37 @@ export default function Account() {
         const token = sessionStorage.getItem('token');
         if (!token) {
             push('/login');
-            return;
+        } else {
+            // Logout successful
+            sessionStorage.removeItem('user_id');
+            sessionStorage.removeItem('token');
+            push('/login');
         }
 
-        try {
-            const res = await fetch("https://opinio-net-api-794h.vercel.app/api/logout",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({token: token, user_id: sessionStorage.getItem('user_id')}),
-                }
-            );
-
-            if (res.ok) {
-                // Logout successful
-                sessionStorage.removeItem('user_id');
-                sessionStorage.removeItem('token');
-                push('/login');
-            } else {
-                // Logout failed
-                setErrors({"message": "Failed to logout"})
-            }
-        } catch {
-            setErrors({"message": "An error occurred while logging out"})
-        }
+        // try {
+        //     const res = await fetch("https://opinio-net-api-794h.vercel.app/api/logout",
+        //         {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 'Authorization': `Bearer ${token}`,
+        //             },
+        //             body: JSON.stringify({token: token, user_id: sessionStorage.getItem('user_id')}),
+        //         }
+        //     );
+        //
+        //     if (res.ok) {
+        //         // Logout successful
+        //         sessionStorage.removeItem('user_id');
+        //         sessionStorage.removeItem('token');
+        //         push('/login');
+        //     } else {
+        //         // Logout failed
+        //         setErrors({"message": "Failed to logout"})
+        //     }
+        // } catch {
+        //     setErrors({"message": "An error occurred while logging out"})
+        // }
     }
 
     // Function to fetch posts of the current user
