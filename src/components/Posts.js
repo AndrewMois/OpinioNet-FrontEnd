@@ -3,7 +3,7 @@ import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 
 
-const Posts = ({posts, setErrors, setLoading}) => {
+const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
     const user_id = sessionStorage.getItem('user_id');
 
@@ -26,6 +26,7 @@ const Posts = ({posts, setErrors, setLoading}) => {
             if (!res.ok) {
                 setErrors({"message": "Failed to delete post"})
             } else {
+                setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
                 return await res.json();
             }
         } catch (error) {
@@ -72,7 +73,7 @@ const Posts = ({posts, setErrors, setLoading}) => {
                             })}</span>
                         </div>
                         {user_id && parseInt(user_id) === post.user_id && (
-                            <button onClick={handleDelete}>
+                            <button onClick={() => handleDelete(post.id)}>
                                 <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
                                        className="bg-red-700 h-min p-1 box-content rounded-lg"/>
                             </button>

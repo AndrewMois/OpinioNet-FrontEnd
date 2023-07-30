@@ -62,7 +62,7 @@ export default function Home() {
                                     dataLength={posts.length}>
                         <h1 className="text-2xl font-bold my-4">Feed</h1>
                         {errors && <ErrorMessage errors={errors}/>}
-                        <Posts posts={posts} setLoading={setLoading} setErrors={setErrors}/>
+                        <Posts posts={posts} setLoading={setLoading} setErrors={setErrors} setPosts={setPosts}/>
                     </InfiniteScroll>)}
             </main>
         </PageWrapper>

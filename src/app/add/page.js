@@ -30,7 +30,7 @@ function Add() {
     const onSubmit = async (data, e) => {
         e.preventDefault();
         setPosting(true);
-        
+
         const user_id = sessionStorage.getItem('user_id');
 
         // Handle the form submission
@@ -39,6 +39,7 @@ function Add() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": "Bearer " + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
                     title: data.title,
