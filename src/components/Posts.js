@@ -5,6 +5,8 @@ import InfiniteLoading from "./InfiniteLoading";
 
 const Posts = ({posts}) => {
 
+    const user_id = sessionStorage.getItem('user_id');
+
     function handleLike(postId) {
         // Placeholder function for liking a post (to be replaced with a database update)
         console.log(`Post ${postId} liked!`);
@@ -35,15 +37,24 @@ const Posts = ({posts}) => {
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
-                    <div className="flex items-center text-gray-500">
-                        <span className="mr-2">{post.user_name}</span>
-                        <span>{new Date(post.created_at).toLocaleString(undefined, {
-                            hour: 'numeric',
-                            minute: 'numeric',
-                            day: 'numeric',
-                            month: 'short',
-                            hour12: false,
-                        })}</span>
+                    <div className="flex justify-between text-gray-500">
+                        <div>
+                            <span className="mr-2">{post.user_name}</span>
+                            <span>{new Date(post.created_at).toLocaleString(undefined, {
+                                hour: 'numeric',
+                                minute: 'numeric',
+                                day: 'numeric',
+                                month: 'short',
+                                hour12: false,
+                            })}</span>
+                        </div>
+                        {user_id && parseInt(user_id) === post.user_id && (
+                            <button>
+                                <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
+                                       className="bg-red-700 h-min p-1 box-content rounded-lg"/>
+                            </button>
+                        )}
+
                     </div>
                 </div>
             ))}
