@@ -3,7 +3,7 @@ import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 
 
-const Posts = ({posts, setErrors}) => {
+const Posts = ({posts, setErrors, setLoading}) => {
 
     const user_id = sessionStorage.getItem('user_id');
 
@@ -13,6 +13,7 @@ const Posts = ({posts, setErrors}) => {
     }
 
     async function handleDelete(postId) {
+        setLoading(true);
         try {
             const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}`,
                 {
@@ -22,8 +23,15 @@ const Posts = ({posts, setErrors}) => {
                         'Content-Type': 'application/json'
                     }
                 });
+            if (!res.ok) {
+                setErrors({"message": "Failed to delete post"})
+            } else {
+                return await res.json();
+            }
         } catch (error) {
 
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -64,7 +72,7 @@ const Posts = ({posts, setErrors}) => {
                             })}</span>
                         </div>
                         {user_id && parseInt(user_id) === post.user_id && (
-                            <button>
+                            <button onClick={handleDelete}>
                                 <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
                                        className="bg-red-700 h-min p-1 box-content rounded-lg"/>
                             </button>
