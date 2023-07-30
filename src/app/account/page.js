@@ -158,7 +158,7 @@ export default function Account() {
 
     return (
         <PageWrapper>
-            <main className="pb-20 h-screen">
+            <main className="pb-20">
 
                 <div className="mx-auto border-b-2 border-black p-4">
                     {errors && <ErrorMessage errors={errors}/>}
