@@ -3,13 +3,28 @@ import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 
 
-const Posts = ({posts}) => {
+const Posts = ({posts, setErrors}) => {
 
     const user_id = sessionStorage.getItem('user_id');
 
     function handleLike(postId) {
         // Placeholder function for liking a post (to be replaced with a database update)
         console.log(`Post ${postId} liked!`);
+    }
+
+    async function handleDelete(postId) {
+        try {
+            const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+        } catch (error) {
+
+        }
     }
 
     if (posts.length === 0) {
