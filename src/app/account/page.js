@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
 import {GridLoader} from "react-spinners";
+import Avatar from "boring-avatars";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
@@ -163,7 +164,9 @@ export default function Account() {
                 <div className="mx-auto border-b-2 border-black p-4">
                     {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
-                        <Image src="images/user.svg" alt="user logo" height="128" width="128"/>
+                        {/*<Image src="images/user.svg" alt="user logo" height="128" width="128"/>*/}
+                        <Avatar size={128} name={userData.name} variant="beam"
+                                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
 
