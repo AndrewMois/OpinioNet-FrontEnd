@@ -99,7 +99,7 @@ export default function UserPage({params}) {
         };
 
         fetchUserPosts();
-    }, [fetchPosts]);
+    }, []);
 
 
     return (
