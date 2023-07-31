@@ -1,5 +1,5 @@
 'use client';
-import Image from "next/image";
+
 import React, {useEffect, useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
 import {GridLoader} from "react-spinners";
+import Avatar from "boring-avatars";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
@@ -124,7 +125,7 @@ export default function Account() {
         //         push('/login');
         //     } else {
         //         // Logout failed
-        //         setErrors({"message": "Failed to logout"})
+        //         setErrors({"message": "Failed to log out"})
         //     }
         // } catch {
         //     setErrors({"message": "An error occurred while logging out"})
@@ -158,12 +159,14 @@ export default function Account() {
 
     return (
         <PageWrapper>
-            <main className="pb-20 h-screen">
+            <main className={`pb-20 ${posts.length <= 1 ? "h-screen" : ""}`}>
 
                 <div className="mx-auto border-b-2 border-black p-4">
                     {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
-                        <Image src="images/user.svg" alt="user logo" height="128" width="128"/>
+                        {/*<Image src="images/user.svg" alt="user logo" height="128" width="128"/>*/}
+                        <Avatar size={128} name={userData.name} variant="beam"
+                                colors={["#F9DED3", "#FDD1B6", "#FAB4B6", "#C7B6BE", "#89ABB4"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
 
@@ -226,7 +229,7 @@ export default function Account() {
                 </div>
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold my-4">Your posts</h1>
-                    <Posts posts={posts}/>
+                    <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
                 </div>
                 {loading && (
                     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">

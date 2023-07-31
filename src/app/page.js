@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import React, {useState, useEffect} from "react";
 import Loading from "./loading";
 import InfiniteLoading from "../components/InfiniteLoading";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Home() {
     // const posts = await GetPosts();
@@ -12,6 +13,7 @@ export default function Home() {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(true);
+    const [errors, setErrors] = useState(null);
 
     // Function to fetch data for the specified page
     const fetchData = async (page) => {
@@ -59,7 +61,8 @@ export default function Home() {
                     <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
                                     dataLength={posts.length}>
                         <h1 className="text-2xl font-bold my-4">Feed</h1>
-                        <Posts posts={posts}/>
+                        {errors && <ErrorMessage errors={errors}/>}
+                        <Posts posts={posts} setLoading={setLoading} setErrors={setErrors} setPosts={setPosts}/>
                     </InfiniteScroll>)}
             </main>
         </PageWrapper>
