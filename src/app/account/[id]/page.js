@@ -1,5 +1,5 @@
 'use client';
-import Image from "next/image";
+
 import React, {useEffect, useState} from "react";
 import Posts from "../../../components/Posts";
 import PageWrapper from "../../../components/PageWrapper";
