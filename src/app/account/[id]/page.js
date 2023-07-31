@@ -104,13 +104,13 @@ export default function UserPage({params}) {
 
     return (
         <PageWrapper>
-            <main className={`pb-20 ${posts.length <= 1 ? "h-screen" : ""}`}>
+            <main className={`pb-20 ${posts.length <= 2 ? "h-screen" : ""}`}>
 
                 <div className="mx-auto border-b-2 border-black p-4">
                     {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
                         <Avatar size={128} name={userData.name} variant="beam"
-                                colors={["#92A1C6", "#146A7C", "#efd0a4", "#86198f"]}/>
+                                colors={["#EF8184", "#A8C896", "#F5A489", "#EFE2BF", "#86198f"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
                 </div>
