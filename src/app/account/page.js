@@ -166,7 +166,7 @@ export default function Account() {
                     <div className="flex items-center justify-center">
                         {/*<Image src="images/user.svg" alt="user logo" height="128" width="128"/>*/}
                         <Avatar size={128} name={userData.name} variant="beam"
-                                colors={["#EF8184", "#A8C896", "#F5A489", "#EFE2BF", "#86198f"]}/>
+                                colors={["#F9DED3", "#FDD1B6", "#FAB4B6", "#C7B6BE", "#89ABB4"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
 
