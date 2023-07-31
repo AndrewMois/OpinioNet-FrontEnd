@@ -5,7 +5,7 @@ import InfiniteLoading from "./InfiniteLoading";
 
 const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
-    const user_id = sessionStorage.getItem('user_id');
+    const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
 
     function handleLike(postId) {
         // Placeholder function for liking a post (to be replaced with a database update)
