@@ -125,7 +125,7 @@ export default function Account() {
         //         push('/login');
         //     } else {
         //         // Logout failed
-        //         setErrors({"message": "Failed to logout"})
+        //         setErrors({"message": "Failed to log out"})
         //     }
         // } catch {
         //     setErrors({"message": "An error occurred while logging out"})
