@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
+import Link from "next/link";
 
 
 const Posts = ({posts, setErrors, setLoading, setPosts}) => {
@@ -64,7 +65,9 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                     <p className="text-gray-600 mb-2">{post.content}</p>
                     <div className="flex justify-between text-gray-500">
                         <div>
-                            <span className="mr-2">{post.user_name}</span>
+                            <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
+                                {post.user_name}
+                            </Link>
                             <span>{new Date(post.created_at).toLocaleString(undefined, {
                                 hour: 'numeric',
                                 minute: 'numeric',
