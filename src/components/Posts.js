@@ -5,6 +5,7 @@ import InfiniteLoading from "./InfiniteLoading";
 
 const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
+    // This approach avoids Session undefined errors when building the app on the server
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
 
     function handleLike(postId) {
