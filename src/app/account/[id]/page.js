@@ -89,7 +89,7 @@ export default function UserPage({params}) {
             }
         };
         checkUserLoggedIn();
-    }, [checkToken, push, fetchUser]);
+    }, [checkToken, push]);
 
     // Fetch posts on page load
     useEffect(() => {
