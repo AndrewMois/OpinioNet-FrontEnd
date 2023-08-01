@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
@@ -109,6 +109,18 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
             setLoading(false);
         }
     }
+
+    // Update the likes state whenever the posts prop changes (on InfiniteScroll load)
+    useEffect(() => {
+        const likesObj = {};
+        posts.forEach((post) => {
+            likesObj[post.id] = {
+                likes_count: post.likes_count,
+                likes: post.likes,
+            };
+        });
+        setLikes(likesObj);
+    }, [posts]);
 
     if (posts.length === 0) {
         return (
