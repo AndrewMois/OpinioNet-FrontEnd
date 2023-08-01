@@ -158,8 +158,9 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
                         <div className="flex items-center justify-between gap-2">
                             {likes[post.id]?.loading ?
-                                (<div className="w-6 h-6 bg-gray-300 rounded animate-pulse"></div>) :
-                                (<span>{likes[post.id]?.likes_count}</span>)}
+                                (<span
+                                    className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
+                                (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
                             <button>
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
                                        className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"
@@ -168,7 +169,8 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
-                    <div className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90">
+                    <div
+                        className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
                         <div>
                             <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
                                 {post.user_name}
