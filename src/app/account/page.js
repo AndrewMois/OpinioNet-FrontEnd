@@ -77,7 +77,7 @@ export default function Account() {
                     const fetchedPosts = await fetchPosts();
                     setPosts(fetchedPosts);
                 };
-                fetchUserPosts();
+                await fetchUserPosts();
                 setLoading(false)
             }
         };
