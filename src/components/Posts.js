@@ -3,7 +3,6 @@ import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
 
-
 const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
     // Initialize the likes state with the likes data from the `posts` prop.
@@ -20,12 +19,14 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
         return likesObj;
     });
 
+
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
     const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
 
     async function handleLike(postId) {
         if (!user_id || !token) {
-            // User is not logged in, handle as you see fit (e.g., show login popup)
+            setErrors({"message": "You must be logged in to like a post. Click here to login"});
+            window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
 
