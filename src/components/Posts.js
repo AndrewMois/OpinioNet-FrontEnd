@@ -14,6 +14,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
             likesObj[post.id] = {
                 likes_count: post.likes_count,
                 likes: post.likes,
+                loading: false, // Initialize the loading state to false
             };
         });
         return likesObj;
@@ -31,6 +32,15 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
         try {
             // Check if the post is already liked by the user
             const isLiked = likes[postId]?.likes.some((like) => like.id === parseInt(user_id));
+
+            // Set the loading state to true while fetching likes
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [postId]: {
+                    ...prevLikes[postId],
+                    loading: true,
+                },
+            }));
 
             if (isLiked) {
                 // If already liked, unlike the post
@@ -83,6 +93,15 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
             }
         } catch (error) {
             setErrors({"message": "Failed to like post"})
+        } finally {
+            // Set the loading state to false while fetching likes
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [postId]: {
+                    ...prevLikes[postId],
+                    loading: false,
+                },
+            }));
         }
     }
 
@@ -138,7 +157,9 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
                         <div className="flex items-center justify-between gap-2">
-                            <span>{likes[post.id]?.likes_count}</span>
+                            {likes[post.id]?.loading ?
+                                (<div className="w-6 h-6 bg-gray-300 rounded animate-pulse"></div>) :
+                                (<span>{likes[post.id]?.likes_count}</span>)}
                             <button>
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
                                        className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"
@@ -173,5 +194,6 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
         </>
     );
 };
+
 
 export default React.memo(Posts);
