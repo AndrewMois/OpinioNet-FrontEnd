@@ -5,106 +5,112 @@ import Link from "next/link";
 import Votes from "./Votes/Votes";
 
 
-
 const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
-    //state to manage num of the likes and user status
-    const [likes, setLikes] = useState({});
+
+    // Initialize the likes state with the likes data from the `posts` prop.
+    // We need it to change likes number faster
+    const [likes, setLikes] = useState(() => {
+        const likesObj = {};
+        posts.forEach((post) => {
+            likesObj[post.id] = {
+                likes_count: post.likes_count,
+                likes: post.likes,
+                loading: false, // Initialize the loading state to false
+                isLiked: null,
+            };
+        });
+        return likesObj;
+    });
+
+
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
-
-    const fetchLikes = async () => {
-        try {
-            const likePromises = posts.map((post) => fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${post.id}/likes`));
-            const likeResponses = await Promise.all(likePromises);
-            const likeDataArray = await Promise.all(likeResponses.map((res) => res.json()));
-            const likesObj = likeDataArray.reduce((acc, likeData, index) => {
-                acc[posts[index].id] = {
-                    likes_count: likeData.likes_count,
-                    likes: likeData.likes
-                };
-                return acc;
-            }, {});
-
-            setLikes(likesObj);
-            // console.log(likes);
-        } catch (error) {
-            console.error('Error fetching likes:', error);
-        }
-    };
-
-    //Implement retrieving num of the likes and user info who put the like when Posts are changed
-    useEffect(() => {
-        fetchLikes();
-    }, [posts]);
+    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
 
     async function handleLike(postId) {
 
-
-        const token = sessionStorage.getItem('token');
-        if (user_id && token) {
-
-            try {
-                // Placeholder function for liking a post (to be replaced with a database update)
-                console.log(`Post ${postId} liked!`);
-                if (likes[postId]?.likes.find((like) => like.user_id == user_id)) {
-
-                    await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes?user_id=${user_id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${token}`,
-                            },
-                        });
-
-                    // Remove the user's like from the state
-                    // setLikes((prevLikes) => ({
-                    //     ...prevLikes,
-                    //     [postId]: {
-                    //         likes: prevLikes[postId].likes.filter((like) => like.user_id !== user_id),
-                    //         likes_count: prevLikes[postId].likes_count - 1,
-                    //     },
-                    // }));
-                    fetchLikes();
-                } else {
-
-                    const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes`,
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Accept": "application/json",
-                            },
-                            body: JSON.stringify({
-
-                                "user_id": user_id,
-                            }),
-                        });
-                    // Add the user's like to the state
-                    // const newLike = await res.json();
-                    // setLikes((prevLikes) => ({
-                    //     ...prevLikes,
-                    //     [postId]: {
-                    //         likes: [...prevLikes[postId].likes, newLike],
-                    //         likes_count: prevLikes[postId].likes_count + 1,
-                    //     },
-                    // }));
-
-                    if (!res.ok) {
-                        console.error('Error liking post:', res.statusText);
-                        console.log(user_id);
-
-                        return [];
-                    }
-                    fetchLikes();
-                }
-
-
-            } catch (error) {
-                console.error('Error liking post:', error);
-            }
+        if (!user_id || !token) {
+            setErrors({ "message": "You must be logged in to like a post. Click here to login" });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
         }
 
+        try {
+            // Check if the post is already liked by the user
+            likes[postId].isLiked = likes[postId].likes.some((like) => parseInt(like.id) === parseInt(user_id));
 
+
+            // Set the loading state to true while fetching likes
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [postId]: {
+                    ...prevLikes[postId],
+                    loading: true,
+                },
+            }));
+
+            if (likes[postId].isLiked) {
+                // If already liked, unlike the post
+                await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes?user_id=${user_id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`,
+                        },
+                    });
+
+                // Remove the user's like from the state
+                setLikes((prevLikes) => ({
+                    ...prevLikes,
+                    [postId]: {
+                        ...prevLikes[postId],
+                        likes: prevLikes[postId].likes.filter((like) => parseInt(like.id) !== parseInt(user_id)),
+                        likes_count: prevLikes[postId].likes_count - 1,
+                        isLiked: false,
+                    },
+                }));
+            } else {
+                // If not liked, like the post
+                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json",
+                        },
+                        body: JSON.stringify({
+
+                            "user_id": user_id,
+                        }),
+                    });
+
+                if (res.ok) {
+                    // Add the user's like to the state
+                    const newLike = await res.json();
+                    setLikes((prevLikes) => ({
+                        ...prevLikes,
+                        [postId]: {
+                            likes: prevLikes[postId]?.likes ? [...prevLikes[postId].likes, newLike] : [newLike],
+                            likes_count: prevLikes[postId]?.likes_count ? prevLikes[postId].likes_count + 1 : 1,
+                            isLiked: true,
+                        },
+                    }));
+                } else {
+                    setErrors({ "message": "Failed to like post" })
+                }
+            }
+        } catch (error) {
+            setErrors({ "message": "Failed to like post" })
+        } finally {
+            // Set the loading state to false while fetching likes
+            setLikes((prevLikes) => ({
+                ...prevLikes,
+                [postId]: {
+                    ...prevLikes[postId],
+                    loading: false,
+                },
+            }));
+        }
     }
 
     async function handleDelete(postId) {
@@ -131,6 +137,18 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         }
     }
 
+    // Update the likes state whenever the posts prop changes (on InfiniteScroll load)
+    useEffect(() => {
+        const likesObj = {};
+        posts.forEach((post) => {
+            likesObj[post.id] = {
+                likes_count: post.likes_count,
+                likes: post.likes,
+            };
+        });
+        setLikes(likesObj);
+    }, [posts]);
+
     if (posts.length === 0) {
         return (
             <InfiniteLoading />
@@ -147,17 +165,22 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                     <div className="flex justify-between items-center">
                         <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
                         <div className="flex items-center justify-between gap-2">
-                            <span>{likes[post.id]?.likes_count || 0}</span>
-                            <button>
+                            {likes[post.id]?.loading ?
+                                (<span
+                                    className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
+                                (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
+                            <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
+                                className="disabled:cursor-not-allowed">
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
-                                    className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"
-                                    onClick={() => handleLike(post.id)} />
+                                    className="bg-fuchsia-800 h-min p-1 box-content rounded-lg" />
                             </button>
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
-                    <Votes />
-                    <div className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90">
+
+                    <div
+                        className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
+
                         <div>
                             <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
                                 {post.user_name}
@@ -183,5 +206,6 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         </>
     );
 };
+
 
 export default React.memo(Posts);

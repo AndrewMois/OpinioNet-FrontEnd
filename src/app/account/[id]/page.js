@@ -85,21 +85,18 @@ export default function UserPage({params}) {
                 // If the user is logged in, fetch their data
                 const userData = await fetchUser();
                 setUserData(userData);
+
+                const fetchUserPosts = async () => {
+                    const fetchedPosts = await fetchPosts();
+                    setPosts(fetchedPosts);
+                };
+
+                await fetchUserPosts();
                 setLoading(false)
             }
         };
         checkUserLoggedIn();
     }, [checkToken, push]);
-
-    // Fetch posts on page load
-    useEffect(() => {
-        const fetchUserPosts = async () => {
-            const fetchedPosts = await fetchPosts();
-            setPosts(fetchedPosts);
-        };
-
-        fetchUserPosts();
-    }, []);
 
 
     return (
