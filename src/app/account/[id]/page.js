@@ -107,7 +107,7 @@ export default function UserPage({params}) {
                     {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
                         <Avatar size={128} name={userData.name} variant="beam"
-                                colors={["#F9DED3", "#FDD1B6", "#FAB4B6", "#C7B6BE", "#89ABB4"]}/>
+                                colors={["#2b0749", "#86198f", "#FF005B", "#FF7D10", "#FFB238"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
                 </div>
