@@ -14,6 +14,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                 likes_count: post.likes_count,
                 likes: post.likes,
                 loading: false, // Initialize the loading state to false
+                isLiked: null,
             };
         });
         return likesObj;
@@ -32,7 +33,8 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
         try {
             // Check if the post is already liked by the user
-            const isLiked = likes[postId]?.likes.some((like) => like.id === parseInt(user_id));
+            likes[postId].isLiked = likes[postId].likes.some((like) => parseInt(like.id) === parseInt(user_id));
+
 
             // Set the loading state to true while fetching likes
             setLikes((prevLikes) => ({
@@ -43,7 +45,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                 },
             }));
 
-            if (isLiked) {
+            if (likes[postId].isLiked) {
                 // If already liked, unlike the post
                 await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes?user_id=${user_id}`,
                     {
@@ -59,8 +61,9 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                     ...prevLikes,
                     [postId]: {
                         ...prevLikes[postId],
-                        likes: prevLikes[postId].likes.filter((like) => like.id !== parseInt(user_id)),
+                        likes: prevLikes[postId].likes.filter((like) => parseInt(like.id) !== parseInt(user_id)),
                         likes_count: prevLikes[postId].likes_count - 1,
+                        isLiked: false,
                     },
                 }));
             } else {
@@ -86,6 +89,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         [postId]: {
                             likes: prevLikes[postId]?.likes ? [...prevLikes[postId].likes, newLike] : [newLike],
                             likes_count: prevLikes[postId]?.likes_count ? prevLikes[postId].likes_count + 1 : 1,
+                            isLiked: true,
                         },
                     }));
                 } else {
@@ -162,10 +166,10 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                                 (<span
                                     className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
                                 (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
-                            <button>
+                            <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
+                                    className="disabled:cursor-not-allowed">
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
-                                       className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"
-                                       onClick={() => handleLike(post.id)}/>
+                                       className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"/>
                             </button>
                         </div>
                     </div>
