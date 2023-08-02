@@ -173,7 +173,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                             </button>
                         </div>
                     </div>
-                    <p className="text-gray-600 mb-2">{post.content}</p>
+                    <p className="text-gray-600 mb-2 whitespace-pre-line">{post.content}</p>
                     <div
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
                         <div>
