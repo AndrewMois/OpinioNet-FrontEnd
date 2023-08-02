@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
+import Votes from "./Votes/Votes";
 
 
 
-const Posts = ({posts, setErrors, setLoading, setPosts}) => {
+const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
     //state to manage num of the likes and user status
     const [likes, setLikes] = useState({});
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
@@ -37,7 +38,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
     async function handleLike(postId) {
 
-       
+
         const token = sessionStorage.getItem('token');
         if (user_id && token) {
 
@@ -118,7 +119,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                     }
                 });
             if (!res.ok) {
-                setErrors({"message": "Failed to delete post"})
+                setErrors({ "message": "Failed to delete post" })
             } else {
                 setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
                 return await res.json();
@@ -155,6 +156,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
+                    <Votes />
                     <div className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90">
                         <div>
                             <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
@@ -171,7 +173,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         {user_id && parseInt(user_id) === post.user_id && (
                             <button onClick={() => handleDelete(post.id)}>
                                 <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
-                                       className="bg-red-700 h-min p-1 box-content rounded-lg"/>
+                                    className="bg-red-700 h-min p-1 box-content rounded-lg" />
                             </button>
                         )}
 
