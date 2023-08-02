@@ -73,6 +73,11 @@ export default function Account() {
                 const userData = await fetchUser();
                 setUserData(userData);
                 setEmail(userData.email);
+                const fetchUserPosts = async () => {
+                    const fetchedPosts = await fetchPosts();
+                    setPosts(fetchedPosts);
+                };
+                await fetchUserPosts();
                 setLoading(false)
             }
         };
@@ -85,16 +90,6 @@ export default function Account() {
         setEmail(userData.email || 'Getting email...'); // Set default value if email is not available
     }, [userData]);
 
-    // Fetch posts on page load
-    useEffect(() => {
-        const fetchUserPosts = async () => {
-            const fetchedPosts = await fetchPosts();
-            setPosts(fetchedPosts);
-        };
-
-        fetchUserPosts();
-    }, []);
-
     async function handleLogout() {
         const token = sessionStorage.getItem('token');
         if (!token) {
@@ -106,6 +101,7 @@ export default function Account() {
             push('/login');
         }
 
+        // Commented out because the logout endpoint is not working
         // try {
         //     const res = await fetch("https://opinio-net-api-794h.vercel.app/api/logout",
         //         {
