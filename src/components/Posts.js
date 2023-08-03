@@ -21,6 +21,26 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         });
         return likesObj;
     });
+    //editing
+    const [votes, setVotes] = useState(() => {
+        const voteObj = {};
+        posts.forEach((post) => {
+            voteObj[post.id] = {
+                agree_count: post.agree_count,
+                not_sure_count: post.not_sure_count,
+                disagree_count: post.disagree_count,
+                loading: false,
+                isVoted: false,
+            };
+            // Check if the current user has voted for this post
+            // const currentUserVote = post.votes.find((vote) => vote.pivot.user_id === user_id);
+            // if (currentUserVote) {
+            //     voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
+            // }
+        });
+        console.log(voteObj);
+        return voteObj;
+    })
 
 
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
@@ -147,6 +167,16 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
             };
         });
         setLikes(likesObj);
+        //editing
+        const voteObj = {};
+        posts.forEach((post) => {
+            voteObj[post.id] = {
+                agree_count: post.agree_count,
+                not_sure_count: post.not_sure_count,
+                disagree_count: post.disagree_count,
+            };
+        })
+        setVotes(voteObj);
     }, [posts]);
 
     if (posts.length === 0) {
@@ -177,6 +207,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
+                    <Votes agree_count={votes[post.id]?.agree_count} not_sure_count={votes[post.id]?.not_sure_count} disagree_count={votes[post.id]?.disagree_count} user_id={user_id} token={token} />
 
                     <div
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
