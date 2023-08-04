@@ -11,6 +11,12 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
   ];
 
   const [errors, setErrors] = useState(null);
+  // Initialize the voteLoading  state
+
+  // const [voteLoading, setVoteLoading] = useState(() => ({
+  //   loading: false,
+  // }));
+  const [voteLoading, setVoteLoading] = useState({});
 
   const handleVote = async (status) => {
     if (!user_id || !token) {
@@ -20,6 +26,15 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
     }
 
     try {
+
+      // Set the loading state to true while fetching likes
+      setVoteLoading((prevVoteLoading) => ({
+        ...prevVoteLoading,
+        [micropost_id]: true,
+      }));
+
+
+
       const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${micropost_id}/votes`, {
         method: 'POST',
         headers: {
@@ -41,6 +56,13 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
       }
     } catch (error) {
       setErrors('Failed to vote');
+    } finally {
+      // Set the loading state back to false after fetching votes
+      setVoteLoading((prevVoteLoading) => ({
+        ...prevVoteLoading,
+        [micropost_id]: false,
+      }));
+
     }
 
   };
@@ -52,7 +74,8 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
           <ButtonComponent
             key={index}
             label={vote.status}
-            onClick={() => handleVote(vote.status)}
+            onClick={() => voteLoading[micropost_id] ? null : handleVote(vote.status)}
+            disabled={voteLoading[micropost_id]}
           />
         ))}
       </div>
