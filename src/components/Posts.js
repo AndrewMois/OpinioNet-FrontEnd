@@ -26,7 +26,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         return likesObj;
     });
 
-    //editing
+    //Initialize the votes state. This runs only once when loading or reloading browser.
     const [votes, setVotes] = useState(() => {
         const voteObj = {};
         posts.forEach((post) => {
@@ -43,13 +43,8 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                 voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
             }
         });
-        console.log('there');
-        console.log(voteObj);
-        console.log(posts);
         return voteObj;
     })
-    // console.log(votes);
-
 
 
 
@@ -165,6 +160,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         }
     }
 
+    //To switch button to graph and update graph contents by updating votes state  
     const updateVotesState = (micropost_id, status) => {
         setVotes((prevVotes) => ({
             ...prevVotes,
@@ -199,8 +195,8 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                 },
             }));
         }
-        console.log("Came HandleVoteSuccess");
-        console.log(votes);//この時点ではisVotedはついていない なるほど非同期だからこれを表示させてもすぐにはvotesに反映されていない可能性があるのね！！すぐに反映されないのだとしてもVotesの値が変わるのであれば表示は変わるんだっけか？？ってことはstateの値でないとダメってことかなvoteの数値も。。?
+
+        // console.log(votes);//The updated votes state may not be reflected immediately; React state is updated asynchronously, so there is no guarantee that console.log(votes) will show the latest votes state.
     };
 
 
@@ -215,7 +211,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         });
         setLikes(likesObj);
 
-        //editing
+        //Update the votes state whenever the posts prop changes (on InfiniteScroll load)
         const voteObj = {};
         posts.forEach((post) => {
             voteObj[post.id] = {
@@ -232,10 +228,6 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
             }
         })
         setVotes(voteObj);
-        console.log('UseEffect');
-        console.log(voteObj);
-        // console.log(votes);
-        console.log(posts);
     }, [posts]);
 
     if (posts.length === 0) {
