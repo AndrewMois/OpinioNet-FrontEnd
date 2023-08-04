@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VotingComponent = ({votes}) => {
+const VotingComponent = ({ votes }) => {
     const totalVotes = votes.reduce((sum, vote) => sum + vote.count, 0);
 
     return (
@@ -13,7 +13,7 @@ const VotingComponent = ({votes}) => {
                     <div className="w-3/4 bg-gray-200 rounded-lg">
                         <div
                             className="h-2 bg-blue-500 rounded-lg"
-                            style={{width: `${(vote.count / totalVotes) * 100}%`}}
+                            style={{ width: `${(vote.count / totalVotes) * 100}%` }}
                         />
                     </div>
                 </div>
@@ -23,3 +23,5 @@ const VotingComponent = ({votes}) => {
 };
 
 export default VotingComponent;
+
+
