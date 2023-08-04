@@ -165,7 +165,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         }
     }
 
-    const handleVoteSuccess = (micropost_id, status) => {
+    const updateVotesState = (micropost_id, status) => {
         setVotes((prevVotes) => ({
             ...prevVotes,
             [micropost_id]: {
@@ -275,7 +275,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                             token={token}
                         />
                     ) : <Button user_id={user_id}
-                        token={token} micropost_id={post.id} onVoteSuccess={handleVoteSuccess}
+                        token={token} micropost_id={post.id} updateVotesState={updateVotesState}
                     />}
 
                     <div

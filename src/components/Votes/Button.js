@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ButtonComponent from './ButtonComponent';
 
 
-const Button = ({ user_id, token, micropost_id, onVoteSuccess }) => {
+const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
 
   const votes = [
     { status: 'Agree' },
@@ -38,7 +38,7 @@ const Button = ({ user_id, token, micropost_id, onVoteSuccess }) => {
       } else {
         console.log('Voted!!');
         console.log(res);
-        onVoteSuccess(micropost_id, status); //Call the onVoteSuccess callback with the micropost_id
+        updateVotesState(micropost_id, status); //Call the onVoteSuccess callback with the micropost_id
       }
     } catch (error) {
       setErrors('Failed to vote');
