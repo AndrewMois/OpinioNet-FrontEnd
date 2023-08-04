@@ -3,9 +3,13 @@ import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
 import Votes from "./Votes/Votes";
+import Button from "./Votes/Button";
 
 
 const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
+
+    const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
+    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
 
     // Initialize the likes state with the likes data from the `posts` prop.
     // We need it to change likes number faster
@@ -21,6 +25,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         });
         return likesObj;
     });
+
     //editing
     const [votes, setVotes] = useState(() => {
         const voteObj = {};
@@ -33,18 +38,20 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                 isVoted: false,
             };
             // Check if the current user has voted for this post
-            // const currentUserVote = post.votes.find((vote) => vote.pivot.user_id === user_id);
-            // if (currentUserVote) {
-            //     voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
-            // }
+            const currentUserVote = post.votes.find((vote) => parseInt(vote.pivot.user_id) === parseInt(user_id));
+            if (currentUserVote) {
+                voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
+            }
         });
+        console.log('there');
         console.log(voteObj);
+        console.log(posts);
         return voteObj;
     })
+    // console.log(votes);
 
 
-    const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
-    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
+
 
     async function handleLike(postId) {
 
@@ -133,6 +140,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         }
     }
 
+
     async function handleDelete(postId) {
         setLoading(true);
         try {
@@ -157,6 +165,45 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
         }
     }
 
+    const handleVoteSuccess = (micropost_id, status) => {
+        setVotes((prevVotes) => ({
+            ...prevVotes,
+            [micropost_id]: {
+                ...prevVotes[micropost_id],
+                isVoted: true,
+            },
+        }));
+
+        if (status === 'Agree') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    agree_count: prevVotes[micropost_id].agree_count + 1,
+                },
+            }));
+        } else if (status === 'Not Sure') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    not_sure_count: prevVotes[micropost_id].not_sure_count + 1,
+                },
+            }));
+        } else if (status === 'Disagree') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    disagree_count: prevVotes[micropost_id].disagree_count + 1,
+                },
+            }));
+        }
+        console.log("Came HandleVoteSuccess");
+        console.log(votes);//この時点ではisVotedはついていない なるほど非同期だからこれを表示させてもすぐにはvotesに反映されていない可能性があるのね！！すぐに反映されないのだとしてもVotesの値が変わるのであれば表示は変わるんだっけか？？ってことはstateの値でないとダメってことかなvoteの数値も。。?
+    };
+
+
     // Update the likes state whenever the posts prop changes (on InfiniteScroll load)
     useEffect(() => {
         const likesObj = {};
@@ -167,6 +214,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
             };
         });
         setLikes(likesObj);
+
         //editing
         const voteObj = {};
         posts.forEach((post) => {
@@ -174,9 +222,20 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                 agree_count: post.agree_count,
                 not_sure_count: post.not_sure_count,
                 disagree_count: post.disagree_count,
+                loading: false,
+                isVoted: false,
+
             };
+            const currentUserVote = post.votes.find((vote) => parseInt(vote.pivot.user_id) === parseInt(user_id));
+            if (currentUserVote) {
+                voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
+            }
         })
         setVotes(voteObj);
+        console.log('UseEffect');
+        console.log(voteObj);
+        // console.log(votes);
+        console.log(posts);
     }, [posts]);
 
     if (posts.length === 0) {
@@ -207,7 +266,17 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                         </div>
                     </div>
                     <p className="text-gray-600 mb-2">{post.content}</p>
-                    <Votes agree_count={votes[post.id]?.agree_count} not_sure_count={votes[post.id]?.not_sure_count} disagree_count={votes[post.id]?.disagree_count} user_id={user_id} token={token} />
+                    {votes[post.id]?.isVoted === true ? (
+                        <Votes
+                            agree_count={votes[post.id]?.agree_count}
+                            not_sure_count={votes[post.id]?.not_sure_count}
+                            disagree_count={votes[post.id]?.disagree_count}
+                            user_id={user_id}
+                            token={token}
+                        />
+                    ) : <Button user_id={user_id}
+                        token={token} micropost_id={post.id} onVoteSuccess={handleVoteSuccess}
+                    />}
 
                     <div
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
