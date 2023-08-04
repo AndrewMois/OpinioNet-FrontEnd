@@ -11,6 +11,7 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
   ];
 
   const [errors, setErrors] = useState(null);
+
   const handleVote = async (status) => {
     if (!user_id || !token) {
       setErrors("You must be logged in to vote. Click ");
@@ -19,8 +20,6 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
     }
 
     try {
-      console.log('Im in handlevote func');
-      console.log(status);
       const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${micropost_id}/votes`, {
         method: 'POST',
         headers: {
@@ -35,9 +34,9 @@ const Button = ({ user_id, token, micropost_id, updateVotesState }) => {
       });
       if (!res.ok) {
         setErrors('Failed to vote');
-      } else {
-        console.log('Voted!!');
-        console.log(res);
+      }
+      else {
+        //Change votes state in Post.js otherwise it wont be reflected that you selected the voting on the browser
         updateVotesState(micropost_id, status); //Call the onVoteSuccess callback with the micropost_id
       }
     } catch (error) {
