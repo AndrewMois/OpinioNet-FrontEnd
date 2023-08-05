@@ -2,7 +2,7 @@
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
 import InfiniteScroll from 'react-infinite-scroll-component';
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Loading from "./loading";
 import InfiniteLoading from "../components/InfiniteLoading";
 import ErrorMessage from "../components/ErrorMessage";
@@ -57,12 +57,12 @@ export default function Home() {
     return (
         <PageWrapper>
             <main className="px-4 pb-20 background-colour">
-                {loading ? <Loading/> : (
-                    <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading/>}
-                                    dataLength={posts.length}>
+                {loading ? <Loading /> : (
+                    <InfiniteScroll next={loadMorePosts} hasMore={hasMore} loader={<InfiniteLoading />}
+                        dataLength={posts.length}>
                         <h1 className="text-2xl font-bold my-4">Feed</h1>
-                        {errors && <ErrorMessage errors={errors}/>}
-                        <Posts posts={posts} setLoading={setLoading} setErrors={setErrors} setPosts={setPosts}/>
+                        {errors && <ErrorMessage errors={errors} />}
+                        <Posts posts={posts} setLoading={setLoading} setErrors={setErrors} setPosts={setPosts} />
                     </InfiniteScroll>)}
             </main>
         </PageWrapper>

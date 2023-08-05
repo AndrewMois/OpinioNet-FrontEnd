@@ -1,9 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
+import Votes from "./Votes/Votes";
+import Button from "./Votes/Button";
 
-const Posts = ({posts, setErrors, setLoading, setPosts}) => {
+
+const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
+
+    const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
+    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
 
     // Initialize the likes state with the likes data from the `posts` prop.
     // We need it to change likes number faster
@@ -20,14 +26,33 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
         return likesObj;
     });
 
+    //Initialize the votes state. This runs only once when loading or reloading browser.
+    const [votes, setVotes] = useState(() => {
+        const voteObj = {};
+        posts.forEach((post) => {
+            voteObj[post.id] = {
+                agree_count: post.agree_count,
+                not_sure_count: post.not_sure_count,
+                disagree_count: post.disagree_count,
+                loading: false,
+                isVoted: false,
+            };
+            // Check if the current user has voted for this post
+            const currentUserVote = post.votes.find((vote) => parseInt(vote.pivot.user_id) === parseInt(user_id));
+            if (currentUserVote) {
+                voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
+            }
+        });
+        return voteObj;
+    })
 
-    const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
-    const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
+
 
     async function handleLike(postId) {
+
         if (!user_id || !token) {
-            setErrors({"message": "You must be logged in to like a post. Click here to login"});
-            window.scrollTo({top: 0, behavior: 'smooth'});
+            setErrors({ "message": "You must be logged in to like a post. Click here to login" });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
@@ -93,11 +118,11 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         },
                     }));
                 } else {
-                    setErrors({"message": "Failed to like post"})
+                    setErrors({ "message": "Failed to like post" })
                 }
             }
         } catch (error) {
-            setErrors({"message": "Failed to like post"})
+            setErrors({ "message": "Failed to like post" })
         } finally {
             // Set the loading state to false while fetching likes
             setLikes((prevLikes) => ({
@@ -109,6 +134,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
             }));
         }
     }
+
 
     async function handleDelete(postId) {
         setLoading(true);
@@ -122,7 +148,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                     }
                 });
             if (!res.ok) {
-                setErrors({"message": "Failed to delete post"})
+                setErrors({ "message": "Failed to delete post" })
             } else {
                 setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
                 return await res.json();
@@ -134,6 +160,46 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
         }
     }
 
+    //To switch button to graph and update graph contents by updating votes state  
+    const updateVotesState = (micropost_id, status) => {
+        setVotes((prevVotes) => ({
+            ...prevVotes,
+            [micropost_id]: {
+                ...prevVotes[micropost_id],
+                isVoted: true,
+            },
+        }));
+
+        if (status === 'Agree') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    agree_count: prevVotes[micropost_id].agree_count + 1,
+                },
+            }));
+        } else if (status === 'Not Sure') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    not_sure_count: prevVotes[micropost_id].not_sure_count + 1,
+                },
+            }));
+        } else if (status === 'Disagree') {
+            setVotes((prevVotes) => ({
+                ...prevVotes,
+                [micropost_id]: {
+                    ...prevVotes[micropost_id],
+                    disagree_count: prevVotes[micropost_id].disagree_count + 1,
+                },
+            }));
+        }
+
+        // console.log(votes);//The updated votes state may not be reflected immediately; React state is updated asynchronously, so there is no guarantee that console.log(votes) will show the latest votes state.
+    };
+
+
     // Update the likes state whenever the posts prop changes (on InfiniteScroll load)
     useEffect(() => {
         const likesObj = {};
@@ -144,11 +210,29 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
             };
         });
         setLikes(likesObj);
+
+        //Update the votes state whenever the posts prop changes (on InfiniteScroll load)
+        const voteObj = {};
+        posts.forEach((post) => {
+            voteObj[post.id] = {
+                agree_count: post.agree_count,
+                not_sure_count: post.not_sure_count,
+                disagree_count: post.disagree_count,
+                loading: false,
+                isVoted: false,
+
+            };
+            const currentUserVote = post.votes.find((vote) => parseInt(vote.pivot.user_id) === parseInt(user_id));
+            if (currentUserVote) {
+                voteObj[post.id].isVoted = true; // Set isVoted to true if the user has voted
+            }
+        })
+        setVotes(voteObj);
     }, [posts]);
 
     if (posts.length === 0) {
         return (
-            <InfiniteLoading/>
+            <InfiniteLoading />
         )
     }
 
@@ -167,15 +251,32 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                                     className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
                                 (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
                             <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
-                                    className="disabled:cursor-not-allowed">
+                                className="disabled:cursor-not-allowed">
                                 <Image src="/images/like.svg" alt="like" width={19} height={19}
-                                       className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"/>
+                                    className="bg-fuchsia-800 h-min p-1 box-content rounded-lg" />
                             </button>
                         </div>
                     </div>
+
                     <p className="text-gray-600 mb-2 whitespace-pre-line">{post.content}</p>
+                    {votes[post.id]?.isVoted === true ? (
+                        <Votes
+                            agree_count={votes[post.id]?.agree_count}
+                            not_sure_count={votes[post.id]?.not_sure_count}
+                            disagree_count={votes[post.id]?.disagree_count}
+                            user_id={user_id}
+                            token={token}
+                        />
+                    ) : <Button user_id={user_id}
+                        token={token} micropost_id={post.id} updateVotesState={updateVotesState}
+                    />}
+
+
+
+
                     <div
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
+
                         <div>
                             <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
                                 {post.user_name}
@@ -191,7 +292,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         {user_id && parseInt(user_id) === post.user_id && (
                             <button onClick={() => handleDelete(post.id)}>
                                 <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
-                                       className="bg-red-700 h-min p-1 box-content rounded-lg"/>
+                                    className="bg-red-700 h-min p-1 box-content rounded-lg" />
                             </button>
                         )}
 
