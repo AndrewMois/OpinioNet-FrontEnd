@@ -14,6 +14,7 @@
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
     "boring-avatars": "^1.10.1",
+    "dompurify": "^3.0.5",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "framer-motion": "^10.12.18",

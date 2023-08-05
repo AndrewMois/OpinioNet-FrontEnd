@@ -7,6 +7,8 @@ import PageWrapper from "../../components/PageWrapper";
 import { useForm } from "react-hook-form";
 import { GridLoader } from "react-spinners";
 import { useAuthContext } from "../../components/Authentication";
+import DOMPurify from 'dompurify';
+
 
 
 function Add() {
@@ -42,8 +44,8 @@ function Add() {
                     "Authorization": "Bearer " + sessionStorage.getItem('token'),
                 },
                 body: JSON.stringify({
-                    title: data.title,
-                    content: data.content,
+                    title: DOMPurify.sanitize(data.title),
+                    content: DOMPurify.sanitize(data.content),
                     user_id: user_id,
                 }),
             });
