@@ -279,7 +279,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
 
                         <div>
-                            <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
+                            <Link href={`account/${post.user_id}`} className="mr-2 text-blue-700 font-bold">
                                 {post.user_name}
                             </Link>
                             <span>{new Date(post.created_at).toLocaleString(undefined, {
