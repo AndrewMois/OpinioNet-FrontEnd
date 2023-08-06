@@ -65,7 +65,7 @@ const Button = ({user_id, token, micropost_id, updateVotesState, setErrors}) => 
     };
 
     return (
-        <div className="p-4 border-t border-black">
+        <div className="p-3 border-t border-black">
             <div className="flex justify-between gap-4">
                 {votes.map((vote, index) => (
                     <ButtonComponent
