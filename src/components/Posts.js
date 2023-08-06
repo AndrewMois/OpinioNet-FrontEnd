@@ -51,7 +51,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
     async function handleLike(postId) {
 
         if (!user_id || !token) {
-            setErrors({"message": "You must be logged in to like a post. Click here to login"});
+            setErrors({"message": "Please, logg in to like a post"});
             window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
@@ -250,7 +250,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                                 (<span
                                     className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
                                 (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
-                            <motion.div whileTap={{scale: 0.9}} className={"flex items-center justify-center"}>
+                            <motion.div whileTap={{scale: 0.8}} className={"flex items-center justify-center"}>
                                 <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
                                         className="disabled:cursor-not-allowed">
                                     <Image src="/images/like.svg" alt="like" width={19} height={19}
