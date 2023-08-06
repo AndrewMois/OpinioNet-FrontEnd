@@ -2,7 +2,7 @@ import React from 'react';
 import VotingComponent from './VotingComponent';
 
 
-const Votes = ({agree_count, not_sure_count, disagree_count, user_id, token}) => {
+const Votes = ({agree_count, not_sure_count, disagree_count}) => {
 
     const totalVotes = agree_count + not_sure_count + disagree_count;
 
