@@ -9,14 +9,14 @@ const VotingComponent = ({votes}) => {
                     <div className="w-1/4">
                         <span className={`text-sm font-bold ${getSubjectColor(vote.subject)}`}>{vote.subject}</span>
                     </div>
-                    {vote.count > 0 && (
+                    {vote.count >= 0 && (
                         <div className="w-1/4">
                             <span className="text-sm">
                                 {vote.count === 1 ? "1 vote" : `${vote.count} votes`}
                             </span>
                         </div>
                     )}
-                    {vote.count > 0 && (
+                    {vote.count >= 0 && (
                         <div className="w-1/2 bg-gray-200 rounded-lg h-full">
                             <div className="relative h-full bg-gray-100 rounded-lg ">
                                 <div
