@@ -290,10 +290,12 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                             })}</span>
                         </div>
                         {user_id && parseInt(user_id) === post.user_id && (
-                            <button onClick={() => handleDelete(post.id)}>
-                                <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
-                                       className="bg-red-700 h-min p-1 box-content rounded-lg"/>
-                            </button>
+                            <motion.div whileTap={{scale: 0.8}} className={"flex items-center justify-center"}>
+                                <button onClick={() => handleDelete(post.id)}>
+                                    <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
+                                           className="bg-red-700 h-min p-1 box-content rounded-lg"/>
+                                </button>
+                            </motion.div>
                         )}
 
                     </div>
