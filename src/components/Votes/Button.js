@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ButtonComponent from './ButtonComponent';
 
 
-const Button = ({user_id, token, micropost_id, updateVotesState}) => {
+const Button = ({user_id, token, micropost_id, updateVotesState, setErrors}) => {
 
     const votes = [
         {status: 'Agree'},
@@ -10,7 +10,6 @@ const Button = ({user_id, token, micropost_id, updateVotesState}) => {
         {status: 'Disagree'},
     ];
 
-    const [errors, setErrors] = useState(null);
     // Initialize the voteLoading  state
 
     // const [voteLoading, setVoteLoading] = useState(() => ({
@@ -20,8 +19,8 @@ const Button = ({user_id, token, micropost_id, updateVotesState}) => {
 
     const handleVote = async (status) => {
         if (!user_id || !token) {
-            setErrors("You must be logged in to vote. Click ");
-            //window.scrollTo({ top: 0, behavior: 'smooth' });
+            setErrors({"message": "Please, log in to vote"});
+            window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
 
@@ -47,13 +46,13 @@ const Button = ({user_id, token, micropost_id, updateVotesState}) => {
                 }),
             });
             if (!res.ok) {
-                setErrors('Failed to vote');
+                setErrors({"message": "Error voting: " + res.statusText});
             } else {
                 //Change votes state in Post.js otherwise it wont be reflected that you selected the voting on the browser
                 updateVotesState(micropost_id, status); //Call the onVoteSuccess callback with the micropost_id
             }
         } catch (error) {
-            setErrors('Failed to vote');
+            setErrors({"message": "Error voting: " + error});
         } finally {
             // Set the loading state back to false after fetching votes
             setVoteLoading((prevVoteLoading) => ({
