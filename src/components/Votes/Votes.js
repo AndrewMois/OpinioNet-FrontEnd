@@ -1,6 +1,6 @@
 import React from 'react';
 import VotingComponent from './VotingComponent';
-import ButtonComponent from './ButtonComponent';
+
 
 const Votes = ({ agree_count, not_sure_count, disagree_count, user_id, token }) => {
 
