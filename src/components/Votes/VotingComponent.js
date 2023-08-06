@@ -5,7 +5,7 @@ const VotingComponent = ({votes}) => {
     return (
         <div>
             {votes.map((vote) => (
-                <div key={vote.id} className="flex items-center mb-2 h-6">
+                <div key={vote.id} className="flex items-center mb-3 h-6">
                     <div className="w-1/4">
                         <span className={`text-sm font-bold ${getSubjectColor(vote.subject)}`}>{vote.subject}</span>
                     </div>

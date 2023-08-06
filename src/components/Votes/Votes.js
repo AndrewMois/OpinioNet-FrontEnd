@@ -14,7 +14,7 @@ const Votes = ({agree_count, not_sure_count, disagree_count}) => {
 
 
     return (
-        <div className="p-4 border-t border-black">
+        <div className="pt-3 border-t border-black">
             {/* I think it's more clean without the header
             <h1 className="font-bold">Voting Results</h1>*/}
             <VotingComponent votes={votes}/>
