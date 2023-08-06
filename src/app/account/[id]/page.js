@@ -88,7 +88,7 @@ export default function UserPage({params}) {
 
                 const fetchUserPosts = async () => {
                     const fetchedPosts = await fetchPosts();
-                    setPosts(fetchedPosts);
+                    setPosts(fetchedPosts.data);
                 };
 
                 await fetchUserPosts();

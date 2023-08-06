@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Image from "next/image";
 import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
 import Votes from "./Votes/Votes";
 import Button from "./Votes/Button";
+import {motion} from "framer-motion";
 
 
-const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
+const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
     const user_id = typeof window !== 'undefined' ? sessionStorage.getItem('user_id') : null;
     const token = typeof window !== 'undefined' ? sessionStorage.getItem('token') : null;
@@ -47,12 +48,11 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
     })
 
 
-
     async function handleLike(postId) {
 
         if (!user_id || !token) {
-            setErrors({ "message": "You must be logged in to like a post. Click here to login" });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setErrors({"message": "Please, log in to like a post"});
+            window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
 
@@ -118,11 +118,11 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                         },
                     }));
                 } else {
-                    setErrors({ "message": "Failed to like post" })
+                    setErrors({"message": "Failed to like post"})
                 }
             }
         } catch (error) {
-            setErrors({ "message": "Failed to like post" })
+            setErrors({"message": "Failed to like post"})
         } finally {
             // Set the loading state to false while fetching likes
             setLikes((prevLikes) => ({
@@ -148,7 +148,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                     }
                 });
             if (!res.ok) {
-                setErrors({ "message": "Failed to delete post" })
+                setErrors({"message": "Failed to delete post"})
             } else {
                 setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
                 return await res.json();
@@ -232,7 +232,7 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
 
     if (posts.length === 0) {
         return (
-            <InfiniteLoading />
+            <InfiniteLoading/>
         )
     }
 
@@ -250,11 +250,13 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                                 (<span
                                     className="animate-pulse font-bold text-gray-500">{likes[post.id]?.likes_count}</span>) :
                                 (<span className="font-bold">{likes[post.id]?.likes_count}</span>)}
-                            <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
-                                className="disabled:cursor-not-allowed">
-                                <Image src="/images/like.svg" alt="like" width={19} height={19}
-                                    className="bg-fuchsia-800 h-min p-1 box-content rounded-lg" />
-                            </button>
+                            <motion.div whileTap={{scale: 0.8}} className={"flex items-center justify-center"}>
+                                <button disabled={likes[post.id]?.loading} onClick={() => handleLike(post.id)}
+                                        className="disabled:cursor-not-allowed">
+                                    <Image src="/images/like.svg" alt="like" width={19} height={19}
+                                           className="bg-fuchsia-800 h-min p-1 box-content rounded-lg"/>
+                                </button>
+                            </motion.div>
                         </div>
                     </div>
 
@@ -268,17 +270,16 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                             token={token}
                         />
                     ) : <Button user_id={user_id}
-                        token={token} micropost_id={post.id} updateVotesState={updateVotesState}
+                                token={token} micropost_id={post.id} updateVotesState={updateVotesState}
+                                setErrors={setErrors}
                     />}
-
-
 
 
                     <div
                         className="flex justify-between text-gray-500 border-t pt-2 border-black opacity-90 items-center">
 
                         <div>
-                            <Link href={`account/${post.user_id}`} className="mr-2 text-fuchsia-900 font-bold">
+                            <Link href={`account/${post.user_id}`} className="mr-2 text-blue-700 font-bold">
                                 {post.user_name}
                             </Link>
                             <span>{new Date(post.created_at).toLocaleString(undefined, {
@@ -290,10 +291,12 @@ const Posts = ({ posts, setErrors, setLoading, setPosts }) => {
                             })}</span>
                         </div>
                         {user_id && parseInt(user_id) === post.user_id && (
-                            <button onClick={() => handleDelete(post.id)}>
-                                <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
-                                    className="bg-red-700 h-min p-1 box-content rounded-lg" />
-                            </button>
+                            <motion.div whileTap={{scale: 0.8}} className={"flex items-center justify-center"}>
+                                <button onClick={() => handleDelete(post.id)}>
+                                    <Image src="/images/rubbish.svg" alt="like" width={19} height={19}
+                                           className="bg-red-700 h-min p-1 box-content rounded-lg"/>
+                                </button>
+                            </motion.div>
                         )}
 
                     </div>

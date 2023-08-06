@@ -14,6 +14,11 @@ function InfiniteLoading() {
                 </div>
                 <div className="h-4 bg-gray-300 rounded mt-2"></div>
                 <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                <div className="flex justify-between gap-4">
+                    <div className="w-1/3 h-4 bg-gray-300 rounded mt-2"></div>
+                    <div className="w-1/3 h-4 bg-gray-300 rounded mt-2"></div>
+                    <div className="w-1/3 h-4 bg-gray-300 rounded mt-2"></div>
+                </div>
                 <div className="h-4 bg-gray-300 rounded mt-2"></div>
             </div>
         </div>

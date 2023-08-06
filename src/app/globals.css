@@ -45,6 +45,11 @@ body {
     text-shadow: 0.125rem 0.125rem 0 var(--accent-colour);
 }
 
+.text-white-outline {
+    text-shadow: 0.4px 0.4px 0 #fff, -0.4px -0.4px 0 #fff, 0.4px -0.4px 0 #fff, -0.4px 0.4px 0 #fff;
+}
+
+
 .text-accent {
     color: var(--accent-colour);
 }
