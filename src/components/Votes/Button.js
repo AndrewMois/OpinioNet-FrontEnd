@@ -19,7 +19,7 @@ const Button = ({user_id, token, micropost_id, updateVotesState, setErrors}) => 
 
     const handleVote = async (status) => {
         if (!user_id || !token) {
-            setErrors({"message": "Please, log in to vote"});
+            setErrors({"message": "Please, log in to vote or see results"});
             window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
