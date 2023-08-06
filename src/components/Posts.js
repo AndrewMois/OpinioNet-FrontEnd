@@ -51,7 +51,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
     async function handleLike(postId) {
 
         if (!user_id || !token) {
-            setErrors({"message": "Please, logg in to like a post"});
+            setErrors({"message": "Please, log in to like a post"});
             window.scrollTo({top: 0, behavior: 'smooth'});
             return;
         }
@@ -271,6 +271,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                         />
                     ) : <Button user_id={user_id}
                                 token={token} micropost_id={post.id} updateVotesState={updateVotesState}
+                                setErrors={setErrors}
                     />}
 
 
