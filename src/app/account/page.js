@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Posts from "@/components/Posts";
 import PageWrapper from "@/components/PageWrapper";
-import { useAuthContext } from "@/components/Authentication";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import {useAuthContext} from "@/components/Authentication";
+import {useRouter} from "next/navigation";
+import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
-import { GridLoader } from "react-spinners";
+import {GridLoader} from "react-spinners";
 import Avatar from "boring-avatars";
 
 export default function Account() {
@@ -19,8 +19,8 @@ export default function Account() {
     const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
     const [errors, setErrors] = useState(null);
-    const { checkToken } = useAuthContext();
-    const { push } = useRouter()
+    const {checkToken} = useAuthContext();
+    const {push} = useRouter()
 
     //Function to fetch data for the specified user
     const fetchUser = async () => {
@@ -30,7 +30,7 @@ export default function Account() {
 
         if (user_id && token) {
             try {
-                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`,
+                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}`,
                     {
                         method: 'GET',
                         headers: {
@@ -40,12 +40,12 @@ export default function Account() {
                         }
                     });
                 if (!res.ok) {
-                    setErrors({ "message": "Error fetching data: " + res.statusText })
+                    setErrors({"message": "Error fetching data: " + res.statusText})
                     return []; // Return valid array
                 }
                 return await res.json();
             } catch (error) {
-                setErrors({ "message": "Error fetching data: " + error });
+                setErrors({"message": "Error fetching data: " + error});
                 return [];
             } finally {
                 setLoading(false);
@@ -71,6 +71,7 @@ export default function Account() {
             } else {
                 // If the user is logged in, fetch their data
                 const userData = await fetchUser();
+                console.log("user data" + userData); //TODO: Remove this
                 setUserData(userData);
                 setEmail(userData.email);
                 const fetchUserPosts = async () => {
@@ -141,14 +142,14 @@ export default function Account() {
                 }
             });
             if (!res.ok) {
-                setErrors({ "message": "Error fetching your posts: " + res.statusText })
+                setErrors({"message": "Error fetching your posts: " + res.statusText})
                 setLoading(false);
                 return []; // Return valid array
             }
             const jsonData = await res.json();
             return jsonData;
         } catch (error) {
-            setErrors({ "message": "Error fetching your posts: " + error })
+            setErrors({"message": "Error fetching your posts: " + error})
             return [];
         } finally {
             setLoading(false);
@@ -160,11 +161,11 @@ export default function Account() {
             <main className={`pb-20 ${posts.length <= 1 ? "h-screen" : ""}`}>
 
                 <div className="mx-auto border-b-2 border-black p-4">
-                    {errors && <ErrorMessage errors={errors} />}
+                    {errors && <ErrorMessage errors={errors}/>}
                     <div className="flex items-center justify-center">
                         {/*<Image src="images/user.svg" alt="user logo" height="128" width="128"/>*/}
                         <Avatar size={128} name={userData.name} variant="beam"
-                            colors={["#2b0749", "#86198f", "#FF005B", "#FF7D10", "#FFB238"]} />
+                                colors={["#2b0749", "#86198f", "#FF005B", "#FF7D10", "#FFB238"]}/>
                     </div>
                     <h2 className="text-2xl font-bold text-center mt-4 mb-2">{userData.name ? userData.name : "Loading..."}</h2>
 
@@ -199,9 +200,9 @@ export default function Account() {
                     <div className="mb-4">
                         <label className="block font-semibold mb-1">Change Password:</label>
                         <input type="password"
-                            className="w-full border border-fuchsia-800 px-4 py-2 rounded-2xl box-shadow-black"
-                            placeholder="Enter new password"
-                            onClick={() => setEditPassword(true)} />
+                               className="w-full border border-fuchsia-800 px-4 py-2 rounded-2xl box-shadow-black"
+                               placeholder="Enter new password"
+                               onClick={() => setEditPassword(true)}/>
                         {editPassword && (
                             <div className='mt-2'>
                                 <button
@@ -217,7 +218,7 @@ export default function Account() {
                             </div>
                         )}
                     </div>
-                    <motion.div whileTap={{ scale: 0.9 }}>
+                    <motion.div whileTap={{scale: 0.9}}>
                         <button
                             className="mx-auto block bg-fuchsia-800 font-bold hover:bg-fuchsia-700 text-white px-4 py-2 border-2 border-black rounded-2xl box-shadow-black"
                             onClick={handleLogout}>
@@ -227,11 +228,11 @@ export default function Account() {
                 </div>
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold my-4">Your posts</h1>
-                    <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts} />
+                    <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
                 </div>
                 {loading && (
                     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                        <GridLoader color="#86198f" size={20} />
+                        <GridLoader color="#86198f" size={20}/>
                     </div>
                 )}
             </main>
