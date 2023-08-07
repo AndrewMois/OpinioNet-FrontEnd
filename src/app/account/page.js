@@ -9,7 +9,6 @@ import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
 import {GridLoader} from "react-spinners";
 import Avatar from "boring-avatars";
-import NoPosts from "../../components/NoPosts";
 import InfiniteLoading from "../../components/InfiniteLoading";
 
 export default function Account() {
