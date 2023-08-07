@@ -9,6 +9,8 @@ import {motion} from "framer-motion";
 import ErrorMessage from "../../components/ErrorMessage";
 import {GridLoader} from "react-spinners";
 import Avatar from "boring-avatars";
+import NoPosts from "../../components/NoPosts";
+import InfiniteLoading from "../../components/InfiniteLoading";
 
 export default function Account() {
     const [email, setEmail] = useState('Getting email...');
@@ -83,7 +85,7 @@ export default function Account() {
             }
         };
         checkUserLoggedIn();
-    }, [checkToken, push]);
+    }, []);
 
 
     // Update the email state once the userData state is set
@@ -228,7 +230,9 @@ export default function Account() {
                 </div>
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold my-4">Your posts</h1>
-                    <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
+                    {loading ? <InfiniteLoading/> :
+                        <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
+                    }
                 </div>
                 {loading && (
                     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">

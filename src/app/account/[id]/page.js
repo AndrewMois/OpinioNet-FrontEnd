@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import ErrorMessage from "../../../components/ErrorMessage";
 import {GridLoader} from "react-spinners";
 import Avatar from "boring-avatars";
+import InfiniteLoading from "../../../components/InfiniteLoading";
 
 export default function UserPage({params}) {
     const [userData, setUserData] = useState({});
@@ -113,7 +114,9 @@ export default function UserPage({params}) {
                 </div>
                 <div className="mx-auto p-4">
                     <h1 className="text-2xl font-bold my-4">{userData.name === undefined ? "Posts" : userData.name + "'s posts"}</h1>
-                    <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
+                    {loading ? <InfiniteLoading/> :
+                        <Posts posts={posts} setErrors={setErrors} setLoading={setLoading} setPosts={setPosts}/>
+                    }
                 </div>
                 {loading && (
                     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
