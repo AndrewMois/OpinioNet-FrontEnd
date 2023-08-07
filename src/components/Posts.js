@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
 import Image from "next/image";
-import InfiniteLoading from "./InfiniteLoading";
 import Link from "next/link";
 import Votes from "./Votes/Votes";
 import Button from "./Votes/Button";
 import {motion} from "framer-motion";
+import NoPosts from "./NoPosts";
 
 
 const Posts = ({posts, setErrors, setLoading, setPosts}) => {
@@ -231,9 +231,7 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
     }, [posts]);
 
     if (posts.length === 0) {
-        return (
-            <InfiniteLoading/>
-        )
+        return (<NoPosts/>)
     }
 
     return (
