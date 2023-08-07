@@ -33,6 +33,7 @@ function RegisterForm() {
                 "Content-Type": "application/json",
                 "Accept": 'application/json',
             },
+            credentials: "include",
             body: JSON.stringify({
                 name: data.name,
                 email: data.email,
@@ -47,7 +48,7 @@ function RegisterForm() {
                 } else if (data.token && data.user_id) {
                     // Login Successful
                     sessionStorage.setItem('user_id', JSON.stringify(data.user_id));
-                    sessionStorage.setItem('token', JSON.stringify(data.token));
+                    sessionStorage.setItem('token', data.token);
                     setLoggedIn(true);
                     push("/account")
                 } else {

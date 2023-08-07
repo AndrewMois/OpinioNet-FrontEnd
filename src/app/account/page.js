@@ -72,7 +72,6 @@ export default function Account() {
             } else {
                 // If the user is logged in, fetch their data
                 const userData = await fetchUser();
-                console.log("user data" + userData); //TODO: Remove this
                 setUserData(userData);
                 setEmail(userData.email);
                 const fetchUserPosts = async () => {
@@ -84,7 +83,7 @@ export default function Account() {
             }
         };
         checkUserLoggedIn();
-    }, []);
+    }, [checkToken, push]);
 
 
     // Update the email state once the userData state is set
@@ -147,8 +146,7 @@ export default function Account() {
                 setLoading(false);
                 return []; // Return valid array
             }
-            const jsonData = await res.json();
-            return jsonData;
+            return await res.json();
         } catch (error) {
             setErrors({"message": "Error fetching your posts: " + error})
             return [];
