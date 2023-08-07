@@ -20,7 +20,7 @@ const VotingComponent = ({votes}) => {
                         <div className="w-1/2 bg-gray-200 rounded-lg h-full">
                             <div className="relative h-full bg-gray-100 rounded-lg ">
                                 <div
-                                    className={`absolute top-0 left-0 h-full opacity-90 ${
+                                    className={`absolute top-0 left-0 h-full opacity-40 ${
                                         vote.subject === "Agree"
                                             ? "bg-fuchsia-800"
                                             : vote.subject === "Not Sure"
