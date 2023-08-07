@@ -30,7 +30,7 @@ export default function Account() {
 
         if (user_id && token) {
             try {
-                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}`,
+                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`,
                     {
                         method: 'GET',
                         headers: {
