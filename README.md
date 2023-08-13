@@ -8,7 +8,7 @@ Sometimes you want to know what the world thinks, not only your friends.
 
 ### How
 - **Next.JS** and **React** for Front End, SSR and Routing
-- **Laravel** as a Back End API
+- **Laravel** as a [Back End API](https://github.com/AndrewMois/OpinioNet-API)
 - **Vercel** for the app deployment
 - **Render** for PostgreSQL Database hosting
 
