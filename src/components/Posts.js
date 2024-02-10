@@ -72,7 +72,8 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
 
             if (likes[postId].isLiked) {
                 // If already liked, unlike the post
-                await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes?user_id=${user_id}`,
+                // await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes?user_id=${user_id}`,
+                await fetch(`http://localhost/api/microposts/${postId}/likes?user_id=${user_id}`,
                     {
                         method: "DELETE",
                         headers: {
@@ -93,7 +94,8 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
                 }));
             } else {
                 // If not liked, like the post
-                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes`,
+                // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}/likes`,
+                const res = await fetch(`http://localhost/api/microposts/${postId}/likes`,
                     {
                         method: "POST",
                         headers: {
@@ -139,7 +141,8 @@ const Posts = ({posts, setErrors, setLoading, setPosts}) => {
     async function handleDelete(postId) {
         setLoading(true);
         try {
-            const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}`,
+            // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${postId}`,
+            const res = await fetch(`http://localhost/api/microposts/${postId}`,
                 {
                     method: 'DELETE',
                     headers: {

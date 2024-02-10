@@ -31,7 +31,8 @@ export default function Account() {
 
         if (user_id && token) {
             try {
-                const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}`,
+                // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}`,
+                const res = await fetch(`http://localhost/api/users/${user_id}`,
                     {
                         method: 'GET',
                         headers: {
@@ -135,7 +136,8 @@ export default function Account() {
         const user_id = sessionStorage.getItem('user_id');
         const token = sessionStorage.getItem('token');
         try {
-            const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`, {
+            // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/users/${user_id}/microposts`, {
+            const res = await fetch(`http://localhost/api/users/${user_id}/microposts`, {
                 cache: 'no-store',
                 headers: {
                     'Authorization': 'Bearer ' + token,

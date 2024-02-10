@@ -37,7 +37,8 @@ function Add() {
 
         // Handle the form submission
         try {
-            const response = await fetch("https://opinio-net-api-794h.vercel.app/api/api/microposts", {
+            // const response = await fetch("https://opinio-net-api-794h.vercel.app/api/api/microposts", {
+            const response = await fetch("http://localhost/api/microposts", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

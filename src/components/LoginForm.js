@@ -20,7 +20,8 @@ function LoginForm() {
         e.preventDefault();
         setLoading(true);
 
-        fetch("https://opinio-net-api-794h.vercel.app/api/login", {
+        // fetch("https://opinio-net-api-794h.vercel.app/api/login", {
+        fetch("http://localhost/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

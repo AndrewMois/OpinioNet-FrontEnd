@@ -27,7 +27,8 @@ function RegisterForm() {
         e.preventDefault();
         setLoading(true);
 
-        fetch("https://opinio-net-api-794h.vercel.app/api/register", {
+        // fetch("https://opinio-net-api-794h.vercel.app/api/register", {
+        fetch("http://localhost/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
