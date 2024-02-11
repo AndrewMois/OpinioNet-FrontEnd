@@ -19,7 +19,8 @@ export default function Home() {
     const fetchData = async (page) => {
         try {
             // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts?page=${page}`, {
-            const res = await fetch(`http://localhost/api/microposts?page=${page}`, {
+            // const res = await fetch(`http://localhost/api/microposts?page=${page}`, {
+            const res = await fetch(`http://35.183.51.223/api/microposts?page=${page}`, {
                 cache: 'no-store',
             });
             if (!res.ok) {

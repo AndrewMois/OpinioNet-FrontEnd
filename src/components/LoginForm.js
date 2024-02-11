@@ -21,7 +21,8 @@ function LoginForm() {
         setLoading(true);
 
         // fetch("https://opinio-net-api-794h.vercel.app/api/login", {
-        fetch("http://localhost/login", {
+        // fetch("http://localhost/login", {
+        fetch("http://35.183.51.223/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

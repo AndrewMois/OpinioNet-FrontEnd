@@ -35,7 +35,8 @@ const Button = ({user_id, token, micropost_id, updateVotesState, setErrors}) => 
 
 
             // const res = await fetch(`https://opinio-net-api-794h.vercel.app/api/api/microposts/${micropost_id}/votes`, {
-            const res = await fetch(`http://localhost/api/microposts/${micropost_id}/votes`, {
+            // const res = await fetch(`http://localhost/api/microposts/${micropost_id}/votes`, {
+            const res = await fetch(`http://35.183.51.223/api/microposts/${micropost_id}/votes`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
